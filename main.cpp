@@ -8,10 +8,14 @@
 #include <cassert>
 
 #include <dxgidebug.h>
+#include <dxcapi.h>
+
+#include "Vector4.h"
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxguid.lib")
+#pragma comment(lib,"dxcompiler.lib")
 
 void Log(const std::string& message);
 
@@ -20,7 +24,8 @@ std::wstring ConvertString(const std::string& str);
 std::string ConvertString(const std::wstring& str);
 
 // ウィンドウプロージャ
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) 
+{
 	// メッセージに対してゲームの固有処理を行う
 	switch (msg) {
 		// ウィンドウが破棄された
@@ -35,8 +40,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 }
 
 // Windowsアプリでのエントリーポイント（main関数）
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
+	, LPSTR lpCmdLine, int nShowCmd) 
+{
 	// クライアント領域のサイズ
 	const int32_t kClientWidth = 1280;
 	const int32_t kClientHeight = 720;
@@ -72,7 +78,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	#ifdef _DEBUG
 	ID3D12Debug1* debugController = nullptr;
-	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) 
+	{
 		// デバッグレイヤを有効化する
 		debugController->EnableDebugLayer();
 		// さらにGPu側でもチェックを行うようにする
@@ -99,8 +106,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 良い順にアダプタを頼む
 	for (UINT i = 0; dxgifactory->EnumAdapterByGpuPreference(i,
 		DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&useAdapter)) !=
-		DXGI_ERROR_NOT_FOUND; i++) {
-
+		DXGI_ERROR_NOT_FOUND; i++) 
+	{
 		// アダプターの情報を取得する
 		DXGI_ADAPTER_DESC3 adapterDesc{};
 		hr = useAdapter->GetDesc3(&adapterDesc);
@@ -124,7 +131,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	const char* featureLevelStrings[] = { "12.2","12.1","12.0" };
 	// 高い順に生成できるか試していく
-	for (size_t i = 0; i < _countof(featureLevels); ++i) {
+	for (size_t i = 0; i < _countof(featureLevels); ++i) 
+	{
 		// 採用したアダプターでデバイスを生成
 		hr = D3D12CreateDevice(useAdapter, featureLevels[i], IID_PPV_ARGS(&device));
 		if (SUCCEEDED(hr)) {
@@ -139,7 +147,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	#ifdef _DEBUG
 	ID3D12InfoQueue* infoQueue = nullptr;
-	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
+	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue)))) 
+	{
 		// ヤバイエラー時に止まる
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
 		// エラー時に止まる
@@ -301,7 +310,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// Fenceの値が指定したSignal値にたどり着いているか確認する
 	// GetComleteValueの初期値はFence作成時に返した初期値
-	if (fence->GetCompletedValue() < fenceValue) {
+	if (fence->GetCompletedValue() < fenceValue) 
+	{
 		// 指定したSignalにたどりついていないので、たどり着くまで待つようにイベントを設定する
 		fence->SetEventOnCompletion(fenceValue, fenceEvent);
 		// イベントを待つ
@@ -311,7 +321,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	MSG msg{};
 
 	// ウィンドウのｘボタンが押されるまでループ
-	while (msg.message != WM_QUIT) {
+	while (msg.message != WM_QUIT) 
+	{
 		// Windowにメッセージが来ていたら最優先で処理させる
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);
@@ -342,7 +353,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// リソースリークチェック
 	IDXGIDebug1* debug;
-	if (SUCCEEDED(DXGIGetDebugInterface1(0,IID_PPV_ARGS(&debug)))) {
+	if (SUCCEEDED(DXGIGetDebugInterface1(0,IID_PPV_ARGS(&debug)))) 
+	{
 		debug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
 		debug->ReportLiveObjects(DXGI_DEBUG_APP, DXGI_DEBUG_RLO_ALL);
 		debug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
@@ -352,11 +364,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	return 0;
 }
 
-void Log(const std::string& message) {
+void Log(const std::string& message) 
+{
 	OutputDebugStringA(message.c_str());
 }
 
-std::wstring ConvertString(const std::string& str) {
+std::wstring ConvertString(const std::string& str) 
+{
 	if (str.empty())
 	{
 		return std::wstring();
@@ -373,7 +387,8 @@ std::wstring ConvertString(const std::string& str) {
 	return result;
 }
 
-std::string ConvertString(const std::wstring& str) {
+std::string ConvertString(const std::wstring& str) 
+{
 	if (str.empty())
 	{
 		return std::string();
