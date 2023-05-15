@@ -10,7 +10,6 @@ LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 		PostQuitMessage(0);
 		return 0;
 	}
-
 	// 標準のメッセージ処理を行う
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
@@ -52,4 +51,21 @@ void WinApp::CreateWindowView() {
 	//ウィンドウ表示
 	ShowWindow(hwnd, SW_SHOW);
 }
+
+int WinApp::ProccessMessage() {
+	MSG msg;
+
+	//Windowのメッセージを最優先で処理させる
+	if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	if (msg.message == WM_QUIT) {
+		return true;
+	}
+
+	return false;
+}
+
 HWND WinApp::hwnd;

@@ -12,6 +12,8 @@ public:
 
 	static void CreateWindowView();
 
+	static int ProccessMessage();
+
 private:
 	static inline WNDCLASS wc{};// ウィンドウクラス
 	static	HWND hwnd;
