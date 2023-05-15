@@ -1,4 +1,4 @@
-#include "WinApp.h"
+#include "base/WinApp.h"
 
 const char kWindowTitle[] = "CG2_DirectX";
 
