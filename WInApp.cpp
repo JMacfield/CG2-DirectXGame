@@ -1,4 +1,4 @@
-#include "base/WinApp.h"
+#include "WinApp.h"
 
 //ウィンドウプロシージャ
 LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -34,9 +34,9 @@ void WinApp::CreateWindowView() {
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
 	//ウィンドウの生成
-	hwnd = CreateWindow(
+	hwnd_ = CreateWindow(
 		wc.lpszClassName,//クラス名
-		L"CG2",//タイトルバーの名前
+		L"CG2_DirectXClass",//タイトルバーの名前
 		WS_OVERLAPPEDWINDOW,//ウィンドウスタイル
 		CW_USEDEFAULT,//表示X座標
 		CW_USEDEFAULT,//表示Y座標
@@ -49,7 +49,7 @@ void WinApp::CreateWindowView() {
 	);
 
 	//ウィンドウ表示
-	ShowWindow(hwnd, SW_SHOW);
+	ShowWindow(hwnd_, SW_SHOW);
 }
 
 int WinApp::ProccessMessage() {
@@ -68,4 +68,4 @@ int WinApp::ProccessMessage() {
 	return false;
 }
 
-HWND WinApp::hwnd;
+HWND WinApp::hwnd_;

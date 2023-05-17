@@ -96,10 +96,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WInApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConvertString.h" />
+    <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="WinApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -10,11 +10,13 @@ public:
 
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
+	HWND GetHwnd() const { return hwnd_; }
+
 	static void CreateWindowView();
 
 	static int ProccessMessage();
 
 private:
 	static inline WNDCLASS wc{};// ウィンドウクラス
-	static	HWND hwnd;
+	static HWND hwnd_;
 };
