@@ -1,5 +1,5 @@
-#include "WinApp.h"
-#include "DirectXCommon.h"
+#include "base/header/WinApp.h"
+#include "base/header/DirectXCommon.h"
 
 const char kWindowTitle[] = "CG2_DirectXClass";
 

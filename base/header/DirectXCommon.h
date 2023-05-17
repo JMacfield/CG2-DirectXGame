@@ -7,7 +7,7 @@
 #include <cassert>
 #include <dxgidebug.h>
 
-#include "base/header/WinApp.h"
+#include "WinApp.h"
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")

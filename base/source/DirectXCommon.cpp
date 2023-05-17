@@ -1,5 +1,5 @@
-#include "base/header/DirectXCommon.h"
-#include "base/header/ConvertString.h"
+#include "DirectXCommon.h"
+#include "ConvertString.h"
 
 void DirectXCommon::Log(const std::string& message) {
 	OutputDebugStringA(message.c_str());
