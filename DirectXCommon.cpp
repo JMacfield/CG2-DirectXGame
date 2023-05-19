@@ -1,9 +1,5 @@
 #include "DirectXCommon.h"
-#include <algorithm>
 #include <cassert>
-#include <thread>
-#include <timeapi.h>
-#include <vector>
 #include <dxgidebug.h>
 
 #pragma comment(lib,"d3d12.lib")
