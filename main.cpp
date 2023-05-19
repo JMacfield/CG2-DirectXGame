@@ -13,8 +13,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 
-		Engine->Update();
 		Engine->BeginFrame();
+		Engine->Update();
 
 		Engine->Draw();
 
