@@ -153,37 +153,6 @@ void YTEngine::InitializePSO() {
 	assert(SUCCEEDED(hr));
 }
 
-//void YTEngine::SettingVertex() {
-//	D3D12_HEAP_PROPERTIES uplodeHeapProperties{};
-//	uplodeHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
-//
-//	D3D12_RESOURCE_DESC vertexResourceDesc{};
-//	
-//	vertexResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-//	vertexResourceDesc.Width = sizeof(Vector4) * 3;
-//	
-//	vertexResourceDesc.Height = 1;
-//	vertexResourceDesc.DepthOrArraySize = 1;
-//	vertexResourceDesc.MipLevels = 1;
-//	vertexResourceDesc.SampleDesc.Count = 1;
-//	
-//	vertexResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-//	HRESULT hr;
-//
-//	hr = direct_->GetDevice()->CreateCommittedResource(&uplodeHeapProperties, D3D12_HEAP_FLAG_NONE,
-//		&vertexResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-//		IID_PPV_ARGS(&vertexResource_));
-//	assert(SUCCEEDED(hr));
-//	
-//	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
-//	
-//	vertexBufferView_.SizeInBytes = sizeInBytes;
-//	
-//	vertexBufferView_.StrideInBytes = sizeof(Vector4);
-//	
-//	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
-//}
-
 void YTEngine::SettingViewPort() {
 	viewPort_.Width = WinApp::kClientWidth;
 	viewPort_.Height = WinApp::kClientHeight;
@@ -205,43 +174,20 @@ void YTEngine::variableInitialize() {
 	data2[0] = { -0.45f,0.1f,0.0f,1.0f };
 	data3[0] = { -0.4f,-0.1f,0.0f,1.0f };
 
-	//data1[1] = { -0.2f,-0.3f,0.0f,1.0f };
-	//data2[1] = { -0.15f,-0.1f,0.0f,1.0f };
-	//data3[1] = { -0.1f,-0.3f,0.0f,1.0f };
 	
 	data1[1] = { -0.4f,-0.7f,0.0f,1.0f };
 	data2[1] = { -0.35f,-0.5f,0.0f,1.0f };
 	data3[1] = { -0.3f,-0.7f,0.0f,1.0f };
 	
-	//data1[3] = { 0.2f,0.7f,0.0f,1.0f };
-	//data2[3] = { 0.15f,0.5f,0.0f,1.0f };
-	//data3[3] = { 0.1f,0.7f,0.0f,1.0f };
-	
-	//data1[4] = { 0.6f, 0.9f,0.0f,1.0f };
-	//data2[4] = { 0.55f, 0.7f,0.0f,1.0f };
-	//data3[4] = { 0.5f, 0.9f,0.0f,1.0f };
-	
-	//data1[5] = { -0.1f,0.7f,0.0f,1.0f };
-	//data2[5] = { -0.05f,0.9f,0.0f,1.0f };
-	//data3[5] = { -0.0f,0.7f,0.0f,1.0f };
-	
-	//data1[6] = { 0.4f,-0.5f,0.0f,1.0f };
-	//data2[6] = { 0.35f,-0.7f,0.0f,1.0f };
-	//data3[6] = { 0.3f,-0.5f,0.0f,1.0f };
-	
-	//data1[7] = { 0.2f,-0.3f,0.0f,1.0f };
-	//data2[7] = { 0.15f,-0.5f,0.0f,1.0f };
-	//data3[7] = { 0.1f,-0.3f,0.0f,1.0f };
-	
 	data1[2] = { -0.6f,0.1f,0.0f,1.0f };
 	data2[2] = { -0.55f,0.3f,0.0f,1.0f };
 	data3[2] = { -0.5f,0.1f,0.0f,1.0f };
 	
-	//data1[9] = { 0.75f,-0.5f,0.0f,1.0f };
-	//data2[9] = { 0.75f,-0.7f,0.0f,1.0f };
-	//data3[9] = { 0.6f,-0.5f,0.0f,1.0f };
+	material[0] = { 1.0f,0.1f,1.0f,1.0f };
+	material[1] = { 1.0f,0.3f,0.4f,1.2f };
+	material[2] = { 0.8f,1.0f,0.8f,1.0f };
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 3; i++) {
 		triangle[i] = new Triangle();
 		triangle[i]->Initialize(direct_);
 	}
@@ -283,14 +229,17 @@ void YTEngine::EndFrame() {
 }
 
 void YTEngine::Finalize() {
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 3; i++) {
 		triangle[i]->Finalize();
 	}
+
 	graphicsPipelineState_->Release();
 	signatureBlob_->Release();
+	
 	if (errorBlob_) {
 		errorBlob_->Release();
 	}
+
 	rootSignature_->Release();
 	pixelShaderBlob_->Release();
 	vertexShaderBlob_->Release();
@@ -302,8 +251,8 @@ void YTEngine::Update() {
 }
 
 void YTEngine::Draw() {
-	for (int i = 0; i < 10; i++) {
-		triangle[i]->Draw(data1[i], data2[i], data3[i]);
+	for (int i = 0; i < 3; i++) {
+		triangle[i]->Draw(data1[i], data2[i], data3[i],material[i]);
 	}
 }
 

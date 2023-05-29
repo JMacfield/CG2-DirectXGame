@@ -21,7 +21,7 @@ private:
 	static WinApp* win_;
 	static DirectXCommon* direct_;
 
-	Triangle* triangle[10];
+	Triangle* triangle[3];
 
 	IDxcUtils* dxcUtils_;
 	IDxcCompiler3* dxcCompiler_;
