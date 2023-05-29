@@ -13,49 +13,92 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\convert">
+      <UniqueIdentifier>{3cc1a511-80b4-44ce-a4d9-4cbf9cb0270f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\convert">
+      <UniqueIdentifier>{5f2c6461-c53d-4499-b312-620e669c7249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\directx">
+      <UniqueIdentifier>{bdedde64-ee0e-4cdf-8a1a-0a68cdd95a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\directx">
+      <UniqueIdentifier>{36b599b4-7b18-4861-800b-a79d2c04cd7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine">
+      <UniqueIdentifier>{5133f36f-5f37-474f-b6d3-6f27dbb09fd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine">
+      <UniqueIdentifier>{57aead06-038c-426d-a2e2-8e7b0cdd198d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\math">
+      <UniqueIdentifier>{3e438cad-3b07-4c11-867d-fb98b7326177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\math">
+      <UniqueIdentifier>{af6a4039-3e1c-4561-a150-7b291c3777d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\shader">
+      <UniqueIdentifier>{06b59aca-6780-4f45-ad52-f7c6f618012d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\triangle">
+      <UniqueIdentifier>{619b02dc-a37e-46e1-85a5-7539b96db4e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\triangle">
+      <UniqueIdentifier>{1d3bce9a-c5a4-43aa-a9fe-e5fbe0b146d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\winapp">
+      <UniqueIdentifier>{0b9d4c15-be7a-4842-a7a8-1623f239c9d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\winapp">
+      <UniqueIdentifier>{9625f67a-57c0-4d7d-b41a-0d597e7a1899}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="WInApp.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="convert\ConvertString.cpp">
+      <Filter>ソース ファイル\convert</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXCommon.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="directx\DirectXCommon.cpp">
+      <Filter>ソース ファイル\directx</Filter>
     </ClCompile>
-    <ClCompile Include="ConvertString.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="engine\YTEngine.cpp">
+      <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="DrawSys.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="triangle\Triangle.cpp">
+      <Filter>ソース ファイル\triangle</Filter>
     </ClCompile>
-    <ClCompile Include="CreateEngine.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="winapp\WInApp.cpp">
+      <Filter>ソース ファイル\winapp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WinApp.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="convert\ConvertString.h">
+      <Filter>ヘッダー ファイル\convert</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXCommon.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="directx\DirectXCommon.h">
+      <Filter>ヘッダー ファイル\directx</Filter>
     </ClInclude>
-    <ClInclude Include="ConvertString.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="engine\YTEngine.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="DrawSys.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="math\Vector4.h">
+      <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
-    <ClInclude Include="Vector4.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="triangle\Triangle.h">
+      <Filter>ヘッダー ファイル\triangle</Filter>
     </ClInclude>
-    <ClInclude Include="CreateEngine.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="winapp\WinApp.h">
+      <Filter>ヘッダー ファイル\winapp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Object3d.VS.hlsl" />
-    <FxCompile Include="Object3d.PS.hlsl" />
+    <FxCompile Include="shader\Object3d.PS.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\Object3d.VS.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

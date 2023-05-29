@@ -58,6 +58,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>C:\Users\kruge\source\repos\CG2_DirectXGame\winapp;C:\Users\kruge\source\repos\CG2_DirectXGame\triangle;C:\Users\kruge\source\repos\CG2_DirectXGame\shader;C:\Users\kruge\source\repos\CG2_DirectXGame\math;C:\Users\kruge\source\repos\CG2_DirectXGame\engine;C:\Users\kruge\source\repos\CG2_DirectXGame\directx;C:\Users\kruge\source\repos\CG2_DirectXGame\convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -66,12 +67,12 @@
       <AdditionalOptions>/ignore:4049 /ignore:4098 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll " "$(TargetDir)dxcompiler.dll"
 copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy "$(WindowSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll " "$(TargetDir)dxcompiler.dll"
-copy "$(WindowSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -85,6 +86,7 @@ copy "$(WindowSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxi
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>C:\Users\kruge\source\repos\CG2_DirectXGame\winapp;C:\Users\kruge\source\repos\CG2_DirectXGame\triangle;C:\Users\kruge\source\repos\CG2_DirectXGame\shader;C:\Users\kruge\source\repos\CG2_DirectXGame\math;C:\Users\kruge\source\repos\CG2_DirectXGame\engine;C:\Users\kruge\source\repos\CG2_DirectXGame\directx;C:\Users\kruge\source\repos\CG2_DirectXGame\convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -95,40 +97,36 @@ copy "$(WindowSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxi
       <AdditionalOptions>/ignore:4049 /ignore:4098 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll " "$(TargetDir)dxcompiler.dll"
 copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy "$(WindowSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll " "$(TargetDir)dxcompiler.dll"
-copy "$(WindowSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConvertString.cpp" />
-    <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="DrawSys.cpp" />
-    <ClCompile Include="CreateEngine.cpp" />
+    <ClCompile Include="convert\ConvertString.cpp" />
+    <ClCompile Include="directx\DirectXCommon.cpp" />
+    <ClCompile Include="engine\YTEngine.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="WinApp.cpp" />
+    <ClCompile Include="triangle\Triangle.cpp" />
+    <ClCompile Include="winapp\WInApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConvertString.h" />
-    <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="DrawSys.h" />
-    <ClInclude Include="CreateEngine.h" />
-    <ClInclude Include="Vector4.h" />
-    <ClInclude Include="WinApp.h" />
+    <ClInclude Include="convert\ConvertString.h" />
+    <ClInclude Include="directx\DirectXCommon.h" />
+    <ClInclude Include="engine\YTEngine.h" />
+    <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="triangle\Triangle.h" />
+    <ClInclude Include="winapp\WinApp.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Object3d.PS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    <FxCompile Include="shader\Object3d.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Object3d.VS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    <FxCompile Include="shader\Object3d.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>

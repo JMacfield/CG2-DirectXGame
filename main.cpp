@@ -1,9 +1,9 @@
-#include "CreateEngine.h"
-#include "DrawSys.h"
+#include "YTEngine.h"
+#include "Triangle.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp* win_ = nullptr;
-	CreateEngine* Engine = new CreateEngine;
+	YTEngine* Engine = new YTEngine;
 	Engine->Initialize(win_, 1280, 720);
 
 	Engine->variableInitialize();

@@ -3,9 +3,9 @@
 #include "DirectXCommon.h"
 #include "Vector4.h"
 
-class CreateEngine;
+class YTEngine;
 
-class DrawTriangle
+class Triangle
 {
 public:
 	void Initialize(DirectXCommon* direct);
@@ -16,7 +16,7 @@ private:
 	void SettingVertex();
 
 private:
-	CreateEngine* Engine;
+	YTEngine* Engine;
 	DirectXCommon* direct_;
 	Vector4* vertexData_;
 	ID3D12Resource* vertexResource_;

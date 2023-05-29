@@ -1,7 +1,7 @@
-#include "CreateEngine.h"
+#include "YTEngine.h"
 #include <cassert>
 
-IDxcBlob* CreateEngine::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
+IDxcBlob* YTEngine::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
 	Log(ConvertString(std::format(L"Begin CompileShader, path:{},profile:{}\n", filePath, profile)));
 	IDxcBlobEncoding* shaderSource = nullptr;
 	direct_->SetHr(dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource));
@@ -52,7 +52,7 @@ IDxcBlob* CreateEngine::CompileShader(const std::wstring& filePath, const wchar_
 	return shaderBlob;
 }
 
-void CreateEngine::InitializeDxcCompiler() {
+void YTEngine::InitializeDxcCompiler() {
 	HRESULT hr;
 	dxcUtils_ = nullptr;
 	dxcCompiler_ = nullptr;
@@ -66,10 +66,17 @@ void CreateEngine::InitializeDxcCompiler() {
 	assert(SUCCEEDED(hr));
 }
 
-void CreateEngine::CreateRootSignature() {
+void YTEngine::CreateRootSignature() {
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
 	descriptionRootSignature.Flags =
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+	D3D12_ROOT_PARAMETER rootParameters[1] = {};
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[0].Descriptor.ShaderRegister = 0;
+	descriptionRootSignature.pParameters = rootParameters;
+	descriptionRootSignature.NumParameters = _countof(rootParameters);
 
 	signatureBlob_ = nullptr;
 	errorBlob_ = nullptr;
@@ -89,7 +96,7 @@ void CreateEngine::CreateRootSignature() {
 	assert(SUCCEEDED(hr));
 }
 
-void CreateEngine::CreateInputlayOut() {
+void YTEngine::CreateInputlayOut() {
 	inputElementDescs_[0].SemanticName = "POSITION";
 	inputElementDescs_[0].SemanticIndex = 0;
 	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -99,26 +106,26 @@ void CreateEngine::CreateInputlayOut() {
 	inputLayoutDesc_.NumElements = _countof(inputElementDescs_);
 }
 
-void CreateEngine::SettingBlendState() {
+void YTEngine::SettingBlendState() {
 	blendDesc_.RenderTarget[0].RenderTargetWriteMask =
 		D3D12_COLOR_WRITE_ENABLE_ALL;
 }
 
-void CreateEngine::SettingRasterizerState() {
+void YTEngine::SettingRasterizerState() {
 	rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
 	rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
 
-	vertexShaderBlob_ = CompileShader(L"Object3d.VS.hlsl",
+	vertexShaderBlob_ = CompileShader(L"./shader/Object3d.VS.hlsl",
 		L"vs_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
 	assert(vertexShaderBlob_ != nullptr);
 
 
-	pixelShaderBlob_ = CompileShader(L"Object3d.PS.hlsl",
+	pixelShaderBlob_ = CompileShader(L"./shader/Object3d.PS.hlsl",
 		L"ps_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
 	assert(pixelShaderBlob_ != nullptr);
 }
 
-void CreateEngine::InitializePSO() {
+void YTEngine::InitializePSO() {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 	graphicsPipelineStateDesc.pRootSignature = rootSignature_;
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
@@ -146,38 +153,38 @@ void CreateEngine::InitializePSO() {
 	assert(SUCCEEDED(hr));
 }
 
-void CreateEngine::SettingVertex() {
-	D3D12_HEAP_PROPERTIES uplodeHeapProperties{};
-	uplodeHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+//void YTEngine::SettingVertex() {
+//	D3D12_HEAP_PROPERTIES uplodeHeapProperties{};
+//	uplodeHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+//
+//	D3D12_RESOURCE_DESC vertexResourceDesc{};
+//	
+//	vertexResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+//	vertexResourceDesc.Width = sizeof(Vector4) * 3;
+//	
+//	vertexResourceDesc.Height = 1;
+//	vertexResourceDesc.DepthOrArraySize = 1;
+//	vertexResourceDesc.MipLevels = 1;
+//	vertexResourceDesc.SampleDesc.Count = 1;
+//	
+//	vertexResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+//	HRESULT hr;
+//
+//	hr = direct_->GetDevice()->CreateCommittedResource(&uplodeHeapProperties, D3D12_HEAP_FLAG_NONE,
+//		&vertexResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
+//		IID_PPV_ARGS(&vertexResource_));
+//	assert(SUCCEEDED(hr));
+//	
+//	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
+//	
+//	vertexBufferView_.SizeInBytes = sizeInBytes;
+//	
+//	vertexBufferView_.StrideInBytes = sizeof(Vector4);
+//	
+//	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
+//}
 
-	D3D12_RESOURCE_DESC vertexResourceDesc{};
-	
-	vertexResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	vertexResourceDesc.Width = sizeof(Vector4) * 3;
-	
-	vertexResourceDesc.Height = 1;
-	vertexResourceDesc.DepthOrArraySize = 1;
-	vertexResourceDesc.MipLevels = 1;
-	vertexResourceDesc.SampleDesc.Count = 1;
-	
-	vertexResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	HRESULT hr;
-
-	hr = direct_->GetDevice()->CreateCommittedResource(&uplodeHeapProperties, D3D12_HEAP_FLAG_NONE,
-		&vertexResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-		IID_PPV_ARGS(&vertexResource_));
-	assert(SUCCEEDED(hr));
-	
-	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
-	
-	vertexBufferView_.SizeInBytes = sizeof(Vector4) * 3;
-	
-	vertexBufferView_.StrideInBytes = sizeof(Vector4);
-	
-	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
-}
-
-void CreateEngine::SettingViePort() {
+void YTEngine::SettingViewPort() {
 	viewPort_.Width = WinApp::kClientWidth;
 	viewPort_.Height = WinApp::kClientHeight;
 	viewPort_.TopLeftX = 0;
@@ -186,61 +193,61 @@ void CreateEngine::SettingViePort() {
 	viewPort_.MaxDepth = 1.0f;
 }
 
-void CreateEngine::SettingScissor() {
+void YTEngine::SettingScissor() {
 	scissorRect_.left = 0;
 	scissorRect_.right = WinApp::kClientWidth;
 	scissorRect_.top = 0;
 	scissorRect_.bottom = WinApp::kClientHeight;
 }
 
-void CreateEngine::variableInitialize() {
+void YTEngine::variableInitialize() {
 	data1[0] = { -0.5f,-0.1f,0.0f,1.0f };
 	data2[0] = { -0.45f,0.1f,0.0f,1.0f };
 	data3[0] = { -0.4f,-0.1f,0.0f,1.0f };
 
-	data1[1] = { -0.2f,-0.3f,0.0f,1.0f };
-	data2[1] = { -0.15f,-0.1f,0.0f,1.0f };
-	data3[1] = { -0.1f,-0.3f,0.0f,1.0f };
+	//data1[1] = { -0.2f,-0.3f,0.0f,1.0f };
+	//data2[1] = { -0.15f,-0.1f,0.0f,1.0f };
+	//data3[1] = { -0.1f,-0.3f,0.0f,1.0f };
 	
-	data1[2] = { -0.4f,-0.7f,0.0f,1.0f };
-	data2[2] = { -0.35f,-0.5f,0.0f,1.0f };
-	data3[2] = { -0.3f,-0.7f,0.0f,1.0f };
+	data1[1] = { -0.4f,-0.7f,0.0f,1.0f };
+	data2[1] = { -0.35f,-0.5f,0.0f,1.0f };
+	data3[1] = { -0.3f,-0.7f,0.0f,1.0f };
 	
-	data1[3] = { 0.2f,0.7f,0.0f,1.0f };
-	data2[3] = { 0.15f,0.5f,0.0f,1.0f };
-	data3[3] = { 0.1f,0.7f,0.0f,1.0f };
+	//data1[3] = { 0.2f,0.7f,0.0f,1.0f };
+	//data2[3] = { 0.15f,0.5f,0.0f,1.0f };
+	//data3[3] = { 0.1f,0.7f,0.0f,1.0f };
 	
-	data1[4] = { 0.6f, 0.9f,0.0f,1.0f };
-	data2[4] = { 0.55f, 0.7f,0.0f,1.0f };
-	data3[4] = { 0.5f, 0.9f,0.0f,1.0f };
+	//data1[4] = { 0.6f, 0.9f,0.0f,1.0f };
+	//data2[4] = { 0.55f, 0.7f,0.0f,1.0f };
+	//data3[4] = { 0.5f, 0.9f,0.0f,1.0f };
 	
-	data1[5] = { -0.1f,0.7f,0.0f,1.0f };
-	data2[5] = { -0.05f,0.9f,0.0f,1.0f };
-	data3[5] = { -0.0f,0.7f,0.0f,1.0f };
+	//data1[5] = { -0.1f,0.7f,0.0f,1.0f };
+	//data2[5] = { -0.05f,0.9f,0.0f,1.0f };
+	//data3[5] = { -0.0f,0.7f,0.0f,1.0f };
 	
-	data1[6] = { 0.4f,-0.5f,0.0f,1.0f };
-	data2[6] = { 0.35f,-0.7f,0.0f,1.0f };
-	data3[6] = { 0.3f,-0.5f,0.0f,1.0f };
+	//data1[6] = { 0.4f,-0.5f,0.0f,1.0f };
+	//data2[6] = { 0.35f,-0.7f,0.0f,1.0f };
+	//data3[6] = { 0.3f,-0.5f,0.0f,1.0f };
 	
-	data1[7] = { 0.2f,-0.3f,0.0f,1.0f };
-	data2[7] = { 0.15f,-0.5f,0.0f,1.0f };
-	data3[7] = { 0.1f,-0.3f,0.0f,1.0f };
+	//data1[7] = { 0.2f,-0.3f,0.0f,1.0f };
+	//data2[7] = { 0.15f,-0.5f,0.0f,1.0f };
+	//data3[7] = { 0.1f,-0.3f,0.0f,1.0f };
 	
-	data1[8] = { -0.6f,0.1f,0.0f,1.0f };
-	data2[8] = { -0.55f,0.3f,0.0f,1.0f };
-	data3[8] = { -0.5f,0.1f,0.0f,1.0f };
+	data1[2] = { -0.6f,0.1f,0.0f,1.0f };
+	data2[2] = { -0.55f,0.3f,0.0f,1.0f };
+	data3[2] = { -0.5f,0.1f,0.0f,1.0f };
 	
-	data1[9] = { 0.75f,-0.5f,0.0f,1.0f };
-	data2[9] = { 0.75f,-0.7f,0.0f,1.0f };
-	data3[9] = { 0.6f,-0.5f,0.0f,1.0f };
+	//data1[9] = { 0.75f,-0.5f,0.0f,1.0f };
+	//data2[9] = { 0.75f,-0.7f,0.0f,1.0f };
+	//data3[9] = { 0.6f,-0.5f,0.0f,1.0f };
 
 	for (int i = 0; i < 10; i++) {
-		triangle[i] = new DrawTriangle();
+		triangle[i] = new Triangle();
 		triangle[i]->Initialize(direct_);
 	}
 }
 
-void CreateEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
+void YTEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
 	direct_->Initialize(win, win->kClientWidth, win->kClientHeight);
 
 	InitializeDxcCompiler();
@@ -256,13 +263,13 @@ void CreateEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
 
 	InitializePSO();
 
-	SettingViePort();
+	SettingViewPort();
 
 	SettingScissor();
 }
 
 
-void CreateEngine::BeginFrame() {
+void YTEngine::BeginFrame() {
 	direct_->PreDraw();
 	direct_->GetCommandList()->RSSetViewports(1, &viewPort_);
 	direct_->GetCommandList()->RSSetScissorRects(1, &scissorRect_);
@@ -271,11 +278,11 @@ void CreateEngine::BeginFrame() {
 	direct_->GetCommandList()->SetPipelineState(graphicsPipelineState_);
 }
 
-void CreateEngine::EndFrame() {
+void YTEngine::EndFrame() {
 	direct_->PostDraw();
 }
 
-void CreateEngine::Finalize() {
+void YTEngine::Finalize() {
 	for (int i = 0; i < 10; i++) {
 		triangle[i]->Finalize();
 	}
@@ -290,15 +297,15 @@ void CreateEngine::Finalize() {
 	direct_->Finalize();
 }
 
-void CreateEngine::Update() {
+void YTEngine::Update() {
 
 }
 
-void CreateEngine::Draw() {
+void YTEngine::Draw() {
 	for (int i = 0; i < 10; i++) {
 		triangle[i]->Draw(data1[i], data2[i], data3[i]);
 	}
 }
 
-WinApp* CreateEngine::win_;
-DirectXCommon* CreateEngine::direct_;
+WinApp* YTEngine::win_;
+DirectXCommon* YTEngine::direct_;

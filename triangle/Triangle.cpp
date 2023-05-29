@@ -1,14 +1,14 @@
-#include "DrawSys.h"
+#include "Triangle.h"
 #include <assert.h>
-#include "CreateEngine.h"
+#include "YTEngine.h"
 
-void DrawTriangle::Initialize(DirectXCommon* direct) {
+void Triangle::Initialize(DirectXCommon* direct) {
 	direct_ = direct;
 	SettingVertex();
 
 }
 
-void DrawTriangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c) {
+void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c) {
 	vertexData_[0] = a;
 	vertexData_[1] = b;
 	vertexData_[2] = c;
@@ -19,11 +19,11 @@ void DrawTriangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c) {
 
 }
 
-void DrawTriangle::Finalize() {
+void Triangle::Finalize() {
 	vertexResource_->Release();
 }
 
-void DrawTriangle::SettingVertex() {
+void Triangle::SettingVertex() {
 	D3D12_HEAP_PROPERTIES uplodeHeapProperties{};
 	uplodeHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
 
