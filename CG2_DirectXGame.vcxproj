@@ -58,7 +58,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>C:\Users\kruge\source\repos\CG2_DirectXGame\winapp;C:\Users\kruge\source\repos\CG2_DirectXGame\triangle;C:\Users\kruge\source\repos\CG2_DirectXGame\shader;C:\Users\kruge\source\repos\CG2_DirectXGame\math;C:\Users\kruge\source\repos\CG2_DirectXGame\engine;C:\Users\kruge\source\repos\CG2_DirectXGame\directx;C:\Users\kruge\source\repos\CG2_DirectXGame\convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)transform;$(ProjectDir)winapp;$(ProjectDir)triangle;$(ProjectDir)shader;$(ProjectDir)math;$(ProjectDir)engine;$(ProjectDir)directx;$(ProjectDir)convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -86,7 +86,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>C:\Users\kruge\source\repos\CG2_DirectXGame\winapp;C:\Users\kruge\source\repos\CG2_DirectXGame\triangle;C:\Users\kruge\source\repos\CG2_DirectXGame\shader;C:\Users\kruge\source\repos\CG2_DirectXGame\math;C:\Users\kruge\source\repos\CG2_DirectXGame\engine;C:\Users\kruge\source\repos\CG2_DirectXGame\directx;C:\Users\kruge\source\repos\CG2_DirectXGame\convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)transform;$(ProjectDir)winapp;$(ProjectDir)triangle;$(ProjectDir)shader;$(ProjectDir)math;$(ProjectDir)engine;$(ProjectDir)directx;$(ProjectDir)convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -110,14 +110,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="directx\DirectXCommon.cpp" />
     <ClCompile Include="engine\YTEngine.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="math\MatrixCalculate.cpp" />
     <ClCompile Include="triangle\Triangle.cpp" />
-    <ClCompile Include="winapp\WInApp.cpp" />
+    <ClCompile Include="winapp\WinApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="convert\ConvertString.h" />
     <ClInclude Include="directx\DirectXCommon.h" />
     <ClInclude Include="engine\YTEngine.h" />
+    <ClInclude Include="math\Matrix4x4.h" />
+    <ClInclude Include="math\MatrixCalculate.h" />
+    <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="transform\Transform.h" />
     <ClInclude Include="triangle\Triangle.h" />
     <ClInclude Include="winapp\WinApp.h" />
   </ItemGroup>

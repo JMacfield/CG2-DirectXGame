@@ -19,9 +19,6 @@
     <Filter Include="ヘッダー ファイル\convert">
       <UniqueIdentifier>{5f2c6461-c53d-4499-b312-620e669c7249}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\directx">
-      <UniqueIdentifier>{bdedde64-ee0e-4cdf-8a1a-0a68cdd95a53}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\directx">
       <UniqueIdentifier>{36b599b4-7b18-4861-800b-a79d2c04cd7b}</UniqueIdentifier>
     </Filter>
@@ -52,6 +49,12 @@
     <Filter Include="ヘッダー ファイル\winapp">
       <UniqueIdentifier>{9625f67a-57c0-4d7d-b41a-0d597e7a1899}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\directx">
+      <UniqueIdentifier>{bdedde64-ee0e-4cdf-8a1a-0a68cdd95a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\transform">
+      <UniqueIdentifier>{ca15ddd8-3681-4a24-8405-131a903a0852}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,8 +72,11 @@
     <ClCompile Include="triangle\Triangle.cpp">
       <Filter>ソース ファイル\triangle</Filter>
     </ClCompile>
-    <ClCompile Include="winapp\WInApp.cpp">
+    <ClCompile Include="winapp\WinApp.cpp">
       <Filter>ソース ファイル\winapp</Filter>
+    </ClCompile>
+    <ClCompile Include="math\MatrixCalculate.cpp">
+      <Filter>ソース ファイル\math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +97,18 @@
     </ClInclude>
     <ClInclude Include="winapp\WinApp.h">
       <Filter>ヘッダー ファイル\winapp</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Matrix4x4.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\MatrixCalculate.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Vector3.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="transform\Transform.h">
+      <Filter>ヘッダー ファイル\transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,10 +4,11 @@
 #include <dxcapi.h>
 #include "Vector4.h"
 #include "Triangle.h"
+#include "Transform.h"
 
 #pragma comment(lib,"dxcompiler.lib")
 
-class ArnEngine {
+class YTEngine {
 public:
 	void variableInitialize();
 	void Initialize(WinApp* win, int32_t width, int32_t height);
@@ -20,8 +21,6 @@ public:
 private:
 	static WinApp* win_;
 	static DirectXCommon* direct_;
-
-	Triangle* triangle[3];
 
 	IDxcUtils* dxcUtils_;
 	IDxcCompiler3* dxcCompiler_;
@@ -43,6 +42,13 @@ private:
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[1];
 
 	Vector4 vertexData_;
+
+	Transform transform_;
+	Transform cameraTransform_;
+
+	Matrix4x4 worldMatrix_;
+
+	Triangle* triangle[3];
 	Vector4 data1[3];
 	Vector4 data2[3];
 	Vector4 data3[3];
@@ -67,5 +73,5 @@ private:
 	void SettingViewPort();
 	void SettingScissor();
 
-	ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
+	//ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
 };

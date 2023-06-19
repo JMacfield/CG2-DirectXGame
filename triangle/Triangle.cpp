@@ -6,6 +6,7 @@ void Triangle::Initialize(DirectXCommon* direct) {
 	direct_ = direct;
 	SettingVertex();
 	SetColor();
+	TransformMatrix();
 }
 
 void Triangle::SetColor() {
@@ -16,20 +17,31 @@ void Triangle::SetColor() {
 		reinterpret_cast<void**>(&materialData_));
 }
 
-void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material) {
+void Triangle::TransformMatrix() {
+	wvpResource_ = CreateBufferResource(direct_->GetDevice(), sizeof(Matrix4x4));
+	wvpResource_->Map(0, NULL, reinterpret_cast<void**>(&wvpData_));
+	*wvpData_ = MakeIdentity4x4();
+}
+
+void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material, const Matrix4x4& wvpData) {
 	vertexData_[0] = a;
 	vertexData_[1] = b;
 	vertexData_[2] = c;
 
 	*materialData_ = material;
+	*wvpData_ = wvpData;
 
 	direct_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	direct_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
 	direct_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
+	direct_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
+
 	direct_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
 
 void Triangle::Finalize() {
+	wvpResource_->Release();
 	materialResource_->Release();
 	vertexResource_->Release();
 }

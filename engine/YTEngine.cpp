@@ -1,7 +1,7 @@
 #include "YTEngine.h"
 #include <cassert>
 
-IDxcBlob* ArnEngine::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
+IDxcBlob* YTEngine::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
 	Log(ConvertString(std::format(L"Begin CompileShader, path:{},profile:{}\n", filePath, profile)));
 	IDxcBlobEncoding* shaderSource = nullptr;
 	direct_->SetHr(dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource));
@@ -52,7 +52,7 @@ IDxcBlob* ArnEngine::CompileShader(const std::wstring& filePath, const wchar_t* 
 	return shaderBlob;
 }
 
-void ArnEngine::InitializeDxcCompiler() {
+void YTEngine::InitializeDxcCompiler() {
 	HRESULT hr;
 	dxcUtils_ = nullptr;
 	dxcCompiler_ = nullptr;
@@ -66,15 +66,20 @@ void ArnEngine::InitializeDxcCompiler() {
 	assert(SUCCEEDED(hr));
 }
 
-void ArnEngine::CreateRootSignature() {
+void YTEngine::CreateRootSignature() {
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
 	descriptionRootSignature.Flags =
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
-	D3D12_ROOT_PARAMETER rootParameters[1] = {};
+	D3D12_ROOT_PARAMETER rootParameters[2] = {};
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[0].Descriptor.ShaderRegister = 0;
+
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[1].Descriptor.ShaderRegister = 0;
+
 	descriptionRootSignature.pParameters = rootParameters;
 	descriptionRootSignature.NumParameters = _countof(rootParameters);
 
@@ -96,7 +101,7 @@ void ArnEngine::CreateRootSignature() {
 	assert(SUCCEEDED(hr));
 }
 
-void ArnEngine::CreateInputlayOut() {
+void YTEngine::CreateInputlayOut() {
 	inputElementDescs_[0].SemanticName = "POSITION";
 	inputElementDescs_[0].SemanticIndex = 0;
 	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -106,12 +111,12 @@ void ArnEngine::CreateInputlayOut() {
 	inputLayoutDesc_.NumElements = _countof(inputElementDescs_);
 }
 
-void ArnEngine::SettingBlendState() {
+void YTEngine::SettingBlendState() {
 	blendDesc_.RenderTarget[0].RenderTargetWriteMask =
 		D3D12_COLOR_WRITE_ENABLE_ALL;
 }
 
-void ArnEngine::SettingRasterizerState() {
+void YTEngine::SettingRasterizerState() {
 	rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
 	rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
 
@@ -125,7 +130,7 @@ void ArnEngine::SettingRasterizerState() {
 	assert(pixelShaderBlob_ != nullptr);
 }
 
-void ArnEngine::InitializePSO() {
+void YTEngine::InitializePSO() {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 	graphicsPipelineStateDesc.pRootSignature = rootSignature_;
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
@@ -153,7 +158,7 @@ void ArnEngine::InitializePSO() {
 	assert(SUCCEEDED(hr));
 }
 
-void ArnEngine::SettingViewPort() {
+void YTEngine::SettingViewPort() {
 	viewPort_.Width = WinApp::kClientWidth;
 	viewPort_.Height = WinApp::kClientHeight;
 	viewPort_.TopLeftX = 0;
@@ -162,30 +167,31 @@ void ArnEngine::SettingViewPort() {
 	viewPort_.MaxDepth = 1.0f;
 }
 
-void ArnEngine::SettingScissor() {
+void YTEngine::SettingScissor() {
 	scissorRect_.left = 0;
 	scissorRect_.right = WinApp::kClientWidth;
 	scissorRect_.top = 0;
 	scissorRect_.bottom = WinApp::kClientHeight;
 }
 
-void ArnEngine::variableInitialize() {
-	data1[0] = { -0.5f,-0.1f,0.0f,1.0f };
-	data2[0] = { -0.45f,0.1f,0.0f,1.0f };
-	data3[0] = { -0.4f,-0.1f,0.0f,1.0f };
+void YTEngine::variableInitialize() {
+	data1[0] = { -0.1f,0.1f,0.0f,1.0f };
+	data2[0] = { 0.0f,0.3f,0.0f,1.0f };
+	data3[0] = { 0.1f,0.1f,0.0f,1.0f };
 
+	data1[1] = { -0.1f,-0.3f,0.0f,1.0f };
+	data2[1] = { 0.0f,-0.1f,0.0f,1.0f };
+	data3[1] = { 0.1f,-0.3f,0.0f,1.0f };
 	
-	data1[1] = { -0.4f,-0.7f,0.0f,1.0f };
-	data2[1] = { -0.35f,-0.5f,0.0f,1.0f };
-	data3[1] = { -0.3f,-0.7f,0.0f,1.0f };
-	
-	data1[2] = { -0.6f,0.1f,0.0f,1.0f };
-	data2[2] = { -0.55f,0.3f,0.0f,1.0f };
-	data3[2] = { -0.5f,0.1f,0.0f,1.0f };
+	data1[2] = { -0.1f,-0.7f,0.0f,1.0f };
+	data2[2] = { 0.0f,-0.5f,0.0f,1.0f };
+	data3[2] = { 0.1f,-0.7f,0.0f,1.0f };
 	
 	material[0] = { 1.0f,0.1f,1.0f,1.0f };
 	material[1] = { 1.0f,0.3f,0.4f,1.2f };
 	material[2] = { 0.8f,1.0f,0.8f,1.0f };
+
+	transform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 	for (int i = 0; i < 3; i++) {
 		triangle[i] = new Triangle();
@@ -193,7 +199,7 @@ void ArnEngine::variableInitialize() {
 	}
 }
 
-void ArnEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
+void YTEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
 	direct_->Initialize(win, win->kClientWidth, win->kClientHeight);
 
 	InitializeDxcCompiler();
@@ -215,7 +221,7 @@ void ArnEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
 }
 
 
-void ArnEngine::BeginFrame() {
+void YTEngine::BeginFrame() {
 	direct_->PreDraw();
 	direct_->GetCommandList()->RSSetViewports(1, &viewPort_);
 	direct_->GetCommandList()->RSSetScissorRects(1, &scissorRect_);
@@ -224,11 +230,11 @@ void ArnEngine::BeginFrame() {
 	direct_->GetCommandList()->SetPipelineState(graphicsPipelineState_);
 }
 
-void ArnEngine::EndFrame() {
+void YTEngine::EndFrame() {
 	direct_->PostDraw();
 }
 
-void ArnEngine::Finalize() {
+void YTEngine::Finalize() {
 	for (int i = 0; i < 3; i++) {
 		triangle[i]->Finalize();
 	}
@@ -246,15 +252,23 @@ void ArnEngine::Finalize() {
 	direct_->Finalize();
 }
 
-void ArnEngine::Update() {
+void YTEngine::Update() {
+	worldMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
+	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
+	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
+	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(win_->kClientWidth) / float(win_->kClientHeight), 0.1f, 100.0f);
+	Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix_, Multiply(viewMatrix, projectionMatrix));
 
+	material[0].x += 0.01f;
+	transform_.rotate.y += 0.03f;
+	worldMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
 }
 
-void ArnEngine::Draw() {
+void YTEngine::Draw() {
 	for (int i = 0; i < 3; i++) {
-		triangle[i]->Draw(data1[i], data2[i], data3[i],material[i]);
+		triangle[i]->Draw(data1[i], data2[i], data3[i],material[i],worldMatrix_);
 	}
 }
 
-WinApp* ArnEngine::win_;
-DirectXCommon* ArnEngine::direct_;
+WinApp* YTEngine::win_;
+DirectXCommon* YTEngine::direct_;

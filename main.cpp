@@ -3,7 +3,7 @@
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp* win_ = nullptr;
-	ArnEngine* Engine = new ArnEngine;
+	YTEngine* Engine = new YTEngine;
 	Engine->Initialize(win_, 1280, 720);
 
 	Engine->variableInitialize();
