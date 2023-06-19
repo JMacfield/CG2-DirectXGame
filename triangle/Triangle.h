@@ -3,7 +3,7 @@
 #include "DirectXCommon.h"
 #include "Vector4.h"
 
-class YTEngine;
+class ArnEngine;
 
 class Triangle
 {
@@ -19,7 +19,7 @@ private:
 private:
 	ID3D12Resource* materialResource_;
 
-	YTEngine* Engine;
+	ArnEngine* Engine;
 	DirectXCommon* direct_;
 	Vector4* vertexData_;
 	ID3D12Resource* vertexResource_;

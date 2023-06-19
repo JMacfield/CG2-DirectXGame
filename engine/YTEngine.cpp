@@ -1,7 +1,7 @@
 #include "YTEngine.h"
 #include <cassert>
 
-IDxcBlob* YTEngine::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
+IDxcBlob* ArnEngine::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
 	Log(ConvertString(std::format(L"Begin CompileShader, path:{},profile:{}\n", filePath, profile)));
 	IDxcBlobEncoding* shaderSource = nullptr;
 	direct_->SetHr(dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource));
@@ -52,7 +52,7 @@ IDxcBlob* YTEngine::CompileShader(const std::wstring& filePath, const wchar_t* p
 	return shaderBlob;
 }
 
-void YTEngine::InitializeDxcCompiler() {
+void ArnEngine::InitializeDxcCompiler() {
 	HRESULT hr;
 	dxcUtils_ = nullptr;
 	dxcCompiler_ = nullptr;
@@ -66,7 +66,7 @@ void YTEngine::InitializeDxcCompiler() {
 	assert(SUCCEEDED(hr));
 }
 
-void YTEngine::CreateRootSignature() {
+void ArnEngine::CreateRootSignature() {
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
 	descriptionRootSignature.Flags =
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -96,7 +96,7 @@ void YTEngine::CreateRootSignature() {
 	assert(SUCCEEDED(hr));
 }
 
-void YTEngine::CreateInputlayOut() {
+void ArnEngine::CreateInputlayOut() {
 	inputElementDescs_[0].SemanticName = "POSITION";
 	inputElementDescs_[0].SemanticIndex = 0;
 	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -106,12 +106,12 @@ void YTEngine::CreateInputlayOut() {
 	inputLayoutDesc_.NumElements = _countof(inputElementDescs_);
 }
 
-void YTEngine::SettingBlendState() {
+void ArnEngine::SettingBlendState() {
 	blendDesc_.RenderTarget[0].RenderTargetWriteMask =
 		D3D12_COLOR_WRITE_ENABLE_ALL;
 }
 
-void YTEngine::SettingRasterizerState() {
+void ArnEngine::SettingRasterizerState() {
 	rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
 	rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
 
@@ -125,7 +125,7 @@ void YTEngine::SettingRasterizerState() {
 	assert(pixelShaderBlob_ != nullptr);
 }
 
-void YTEngine::InitializePSO() {
+void ArnEngine::InitializePSO() {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 	graphicsPipelineStateDesc.pRootSignature = rootSignature_;
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
@@ -153,7 +153,7 @@ void YTEngine::InitializePSO() {
 	assert(SUCCEEDED(hr));
 }
 
-void YTEngine::SettingViewPort() {
+void ArnEngine::SettingViewPort() {
 	viewPort_.Width = WinApp::kClientWidth;
 	viewPort_.Height = WinApp::kClientHeight;
 	viewPort_.TopLeftX = 0;
@@ -162,14 +162,14 @@ void YTEngine::SettingViewPort() {
 	viewPort_.MaxDepth = 1.0f;
 }
 
-void YTEngine::SettingScissor() {
+void ArnEngine::SettingScissor() {
 	scissorRect_.left = 0;
 	scissorRect_.right = WinApp::kClientWidth;
 	scissorRect_.top = 0;
 	scissorRect_.bottom = WinApp::kClientHeight;
 }
 
-void YTEngine::variableInitialize() {
+void ArnEngine::variableInitialize() {
 	data1[0] = { -0.5f,-0.1f,0.0f,1.0f };
 	data2[0] = { -0.45f,0.1f,0.0f,1.0f };
 	data3[0] = { -0.4f,-0.1f,0.0f,1.0f };
@@ -193,7 +193,7 @@ void YTEngine::variableInitialize() {
 	}
 }
 
-void YTEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
+void ArnEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
 	direct_->Initialize(win, win->kClientWidth, win->kClientHeight);
 
 	InitializeDxcCompiler();
@@ -215,7 +215,7 @@ void YTEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
 }
 
 
-void YTEngine::BeginFrame() {
+void ArnEngine::BeginFrame() {
 	direct_->PreDraw();
 	direct_->GetCommandList()->RSSetViewports(1, &viewPort_);
 	direct_->GetCommandList()->RSSetScissorRects(1, &scissorRect_);
@@ -224,11 +224,11 @@ void YTEngine::BeginFrame() {
 	direct_->GetCommandList()->SetPipelineState(graphicsPipelineState_);
 }
 
-void YTEngine::EndFrame() {
+void ArnEngine::EndFrame() {
 	direct_->PostDraw();
 }
 
-void YTEngine::Finalize() {
+void ArnEngine::Finalize() {
 	for (int i = 0; i < 3; i++) {
 		triangle[i]->Finalize();
 	}
@@ -246,15 +246,15 @@ void YTEngine::Finalize() {
 	direct_->Finalize();
 }
 
-void YTEngine::Update() {
+void ArnEngine::Update() {
 
 }
 
-void YTEngine::Draw() {
+void ArnEngine::Draw() {
 	for (int i = 0; i < 3; i++) {
 		triangle[i]->Draw(data1[i], data2[i], data3[i],material[i]);
 	}
 }
 
-WinApp* YTEngine::win_;
-DirectXCommon* YTEngine::direct_;
+WinApp* ArnEngine::win_;
+DirectXCommon* ArnEngine::direct_;

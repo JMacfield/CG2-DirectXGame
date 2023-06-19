@@ -7,7 +7,7 @@
 
 #pragma comment(lib,"dxcompiler.lib")
 
-class YTEngine {
+class ArnEngine {
 public:
 	void variableInitialize();
 	void Initialize(WinApp* win, int32_t width, int32_t height);
