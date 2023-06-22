@@ -2,8 +2,10 @@
 #include "Triangle.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+
 	WinApp* win_ = nullptr;
 	YTEngine* Engine = new YTEngine;
+	
 	Engine->Initialize(win_, 1280, 720);
 
 	Engine->variableInitialize();
@@ -22,5 +24,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	Engine->Finalize();
+
 	return 0;
 }

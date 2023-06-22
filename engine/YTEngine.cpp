@@ -191,7 +191,8 @@ void YTEngine::variableInitialize() {
 	material[1] = { 1.0f,0.3f,0.4f,1.2f };
 	material[2] = { 0.8f,1.0f,0.8f,1.0f };
 
-	transform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
+	vertexTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 	for (int i = 0; i < 3; i++) {
 		triangle[i] = new Triangle();
@@ -218,6 +219,8 @@ void YTEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
 	SettingViewPort();
 
 	SettingScissor();
+
+	direct_->ImGuiInitialize();
 }
 
 
@@ -228,9 +231,12 @@ void YTEngine::BeginFrame() {
 	
 	direct_->GetCommandList()->SetGraphicsRootSignature(rootSignature_);
 	direct_->GetCommandList()->SetPipelineState(graphicsPipelineState_);
+
+	ImGui::ShowDemoWindow();
 }
 
 void YTEngine::EndFrame() {
+	ImGui::Render();
 	direct_->PostDraw();
 }
 
@@ -253,15 +259,21 @@ void YTEngine::Finalize() {
 }
 
 void YTEngine::Update() {
-	worldMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
+	worldMatrix_ = MakeAffineMatrix(vertexTransform_.scale, vertexTransform_.rotate, vertexTransform_.translate);
 	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
 	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(win_->kClientWidth) / float(win_->kClientHeight), 0.1f, 100.0f);
 	Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix_, Multiply(viewMatrix, projectionMatrix));
 
 	material[0].x += 0.01f;
-	transform_.rotate.y += 0.03f;
-	worldMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
+	vertexTransform_.rotate.y += 0.03f;
+	
+	worldMatrix_ = worldViewProjectionMatrix;
+
+	ImGui::Begin("Window");
+	ImGui::DragFloat3("CameraTranslate", &cameraTransform_.translate.x, 0.01f);
+
+	ImGui::End();
 }
 
 void YTEngine::Draw() {

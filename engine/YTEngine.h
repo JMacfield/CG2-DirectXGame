@@ -25,8 +25,8 @@ private:
 	IDxcUtils* dxcUtils_;
 	IDxcCompiler3* dxcCompiler_;
 	IDxcIncludeHandler* includeHandler_;
-	ID3D10Blob* signatureBlob_;
-	ID3D10Blob* errorBlob_;
+	ID3DBlob* signatureBlob_;
+	ID3DBlob* errorBlob_;
 	ID3D12RootSignature* rootSignature_;
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_{};
 	D3D12_BLEND_DESC blendDesc_{};
@@ -34,8 +34,6 @@ private:
 	IDxcBlob* pixelShaderBlob_;
 	D3D12_RASTERIZER_DESC rasterizerDesc_{};
 	ID3D12PipelineState* graphicsPipelineState_;
-	ID3D12Resource* vertexResource_;
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 
 	D3D12_VIEWPORT viewPort_{};
 	D3D12_RECT scissorRect_{};
@@ -43,7 +41,7 @@ private:
 
 	Vector4 vertexData_;
 
-	Transform transform_;
+	Transform vertexTransform_;
 	Transform cameraTransform_;
 
 	Matrix4x4 worldMatrix_;
@@ -69,9 +67,6 @@ private:
 	void SettingBlendState();
 	void SettingRasterizerState();
 	void InitializePSO();
-	//void SettingVertex();
 	void SettingViewPort();
 	void SettingScissor();
-
-	//ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
 };
