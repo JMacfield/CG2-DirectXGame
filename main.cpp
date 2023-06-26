@@ -2,6 +2,7 @@
 #include "Triangle.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	WinApp* win_ = nullptr;
 	YTEngine* Engine = new YTEngine;
@@ -16,6 +17,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		Engine->BeginFrame();
+
 		Engine->Update();
 
 		Engine->Draw();
@@ -24,6 +26,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	Engine->Finalize();
+	CoUninitialize();
 
 	return 0;
 }

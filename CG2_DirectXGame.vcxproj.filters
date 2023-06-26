@@ -158,6 +158,9 @@
     <ClInclude Include="externals\imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
+    <ClInclude Include="math\Vector2.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\Object3d.PS.hlsl">
@@ -171,5 +174,10 @@
     <Text Include="externals\imgui\LICENSE.txt">
       <Filter>imgui</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\Object3d.hlsli">
+      <Filter>リソース ファイル\shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

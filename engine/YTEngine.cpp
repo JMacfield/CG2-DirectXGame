@@ -71,17 +71,41 @@ void YTEngine::CreateRootSignature() {
 	descriptionRootSignature.Flags =
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
-	D3D12_ROOT_PARAMETER rootParameters[2] = {};
+	D3D12_ROOT_PARAMETER rootParameters[3] = {};
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	
 	rootParameters[0].Descriptor.ShaderRegister = 0;
-
 	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
 	rootParameters[1].Descriptor.ShaderRegister = 0;
 
+	D3D12_DESCRIPTOR_RANGE descriptoraRange[1] = {};
+	descriptoraRange[0].BaseShaderRegister = 0;
+	descriptoraRange[0].NumDescriptors = 1;
+	descriptoraRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptoraRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptoraRange;
+	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptoraRange);
+
+
+	D3D12_STATIC_SAMPLER_DESC staticSamplers[1] = {};
+	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;
+	staticSamplers[0].ShaderRegister = 0;
+	staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
 	descriptionRootSignature.pParameters = rootParameters;
 	descriptionRootSignature.NumParameters = _countof(rootParameters);
+	descriptionRootSignature.pStaticSamplers = staticSamplers;
+	descriptionRootSignature.NumStaticSamplers = _countof(staticSamplers);
 
 	signatureBlob_ = nullptr;
 	errorBlob_ = nullptr;
@@ -106,6 +130,11 @@ void YTEngine::CreateInputlayOut() {
 	inputElementDescs_[0].SemanticIndex = 0;
 	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	inputElementDescs_[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs_[1].SemanticName = "TEXCOORD";
+	inputElementDescs_[1].SemanticIndex = 0;
+	inputElementDescs_[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
 	inputLayoutDesc_.pInputElementDescs = inputElementDescs_;
 	inputLayoutDesc_.NumElements = _countof(inputElementDescs_);
@@ -178,7 +207,7 @@ void YTEngine::variableInitialize() {
 	data1[0] = { -0.1f,0.1f,0.0f,1.0f };
 	data2[0] = { 0.0f,0.3f,0.0f,1.0f };
 	data3[0] = { 0.1f,0.1f,0.0f,1.0f };
-
+	
 	data1[1] = { -0.1f,-0.3f,0.0f,1.0f };
 	data2[1] = { 0.0f,-0.1f,0.0f,1.0f };
 	data3[1] = { 0.1f,-0.3f,0.0f,1.0f };
@@ -187,17 +216,19 @@ void YTEngine::variableInitialize() {
 	data2[2] = { 0.0f,-0.5f,0.0f,1.0f };
 	data3[2] = { 0.1f,-0.7f,0.0f,1.0f };
 	
-	material[0] = { 1.0f,0.1f,1.0f,1.0f };
-	material[1] = { 1.0f,0.3f,0.4f,1.2f };
-	material[2] = { 0.8f,1.0f,0.8f,1.0f };
+	material[0] = { 1.0f,1.0f,1.0f,1.0f };
+	material[1] = { 1.0f,1.0f,1.0f,1.0f };
+	material[2] = { 1.0f,1.0f,1.0f,1.0f };
 
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
 	vertexTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 	for (int i = 0; i < 3; i++) {
 		triangle[i] = new Triangle();
-		triangle[i]->Initialize(direct_);
+		triangle[i]->Initialize(direct_, this);
 	}
+
+	LoadTexture("resources/uvChecker.png");
 }
 
 void YTEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
@@ -241,6 +272,8 @@ void YTEngine::EndFrame() {
 }
 
 void YTEngine::Finalize() {
+	textureResource->Release();
+
 	for (int i = 0; i < 3; i++) {
 		triangle[i]->Finalize();
 	}
@@ -265,8 +298,8 @@ void YTEngine::Update() {
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(win_->kClientWidth) / float(win_->kClientHeight), 0.1f, 100.0f);
 	Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix_, Multiply(viewMatrix, projectionMatrix));
 
-	material[0].x += 0.01f;
-	vertexTransform_.rotate.y += 0.03f;
+	//material[0].x += 0.01f;
+	//vertexTransform_.rotate.y += 0.03f;
 	
 	worldMatrix_ = worldViewProjectionMatrix;
 
@@ -280,6 +313,74 @@ void YTEngine::Draw() {
 	for (int i = 0; i < 3; i++) {
 		triangle[i]->Draw(data1[i], data2[i], data3[i],material[i],worldMatrix_);
 	}
+}
+
+ID3D12Resource* YTEngine::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata)
+{
+	D3D12_RESOURCE_DESC resourceDesc{};
+	resourceDesc.Width = UINT(metadata.width);
+	resourceDesc.Height = UINT(metadata.height);
+	resourceDesc.MipLevels = UINT16(metadata.mipLevels);
+	resourceDesc.DepthOrArraySize = UINT16(metadata.arraySize);
+	resourceDesc.Format = metadata.format;
+	resourceDesc.SampleDesc.Count = 1;
+	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION(metadata.dimension);
+	
+	D3D12_HEAP_PROPERTIES heapProperties{};
+	heapProperties.Type = D3D12_HEAP_TYPE_CUSTOM;
+	heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	
+	ID3D12Resource* resource = nullptr;
+	HRESULT hr = device->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&resource));
+	assert(SUCCEEDED(hr));
+	return resource;
+}
+
+void YTEngine::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages) {
+	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
+	
+	for (size_t miplevel = 0; miplevel < metadata.mipLevels; ++miplevel) {
+		const DirectX::Image* img = mipImages.GetImage(miplevel, 0, 0);
+		HRESULT hr = texture->WriteToSubresource(UINT(miplevel), nullptr, img->pixels, UINT(img->rowPitch), UINT(img->slicePitch));
+
+		assert(SUCCEEDED(hr));
+	}
+}
+
+DirectX::ScratchImage YTEngine::SendTexture(const std::string& filePath)
+{
+	DirectX::ScratchImage image{};
+	std::wstring filePathW = ConvertString(filePath);
+	HRESULT hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
+	assert(SUCCEEDED(hr));
+
+	DirectX::ScratchImage mipImages{};
+	hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImages);
+	assert(SUCCEEDED(hr));
+	return mipImages;
+}
+
+void YTEngine::LoadTexture(const std::string& filePath) {
+	DirectX::ScratchImage mipImage = SendTexture(filePath);
+	const DirectX::TexMetadata& metaData = mipImage.GetMetadata();
+
+	textureResource = CreateTextureResource(direct_->GetDevice(), metaData);
+	UploadTextureData(textureResource, mipImage);
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = metaData.format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
+
+	textureSrvHandleGPU_ = direct_->GetSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
+	textureSrvHandleCPU_ = direct_->GetSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
+
+	textureSrvHandleGPU_.ptr += direct_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	textureSrvHandleCPU_.ptr += direct_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	
+	direct_->GetDevice()->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU_);
 }
 
 WinApp* YTEngine::win_;
