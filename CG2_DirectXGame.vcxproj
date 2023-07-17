@@ -58,7 +58,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)transform;$(ProjectDir)winapp;$(ProjectDir)triangle;$(ProjectDir)shader;$(ProjectDir)math;$(ProjectDir)engine;$(ProjectDir)directx;$(ProjectDir)convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)gamescene;$(ProjectDir)transform;$(ProjectDir)winapp;$(ProjectDir)triangle;$(ProjectDir)shader;$(ProjectDir)math;$(ProjectDir)engine;$(ProjectDir)directx;$(ProjectDir)convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -86,7 +86,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)transform;$(ProjectDir)winapp;$(ProjectDir)triangle;$(ProjectDir)shader;$(ProjectDir)math;$(ProjectDir)engine;$(ProjectDir)directx;$(ProjectDir)convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)gamescene;$(ProjectDir)transform;$(ProjectDir)winapp;$(ProjectDir)triangle;$(ProjectDir)shader;$(ProjectDir)math;$(ProjectDir)engine;$(ProjectDir)directx;$(ProjectDir)convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -116,8 +116,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="gamescene\GameScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\MatrixCalculate.cpp" />
+    <ClCompile Include="sprite\Sprite.cpp" />
     <ClCompile Include="triangle\Triangle.cpp" />
     <ClCompile Include="winapp\WinApp.cpp" />
   </ItemGroup>
@@ -133,11 +135,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
+    <ClInclude Include="gamescene\GameScene.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\MatrixCalculate.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="sprite\Sprite.h" />
     <ClInclude Include="transform\Transform.h" />
     <ClInclude Include="triangle\Triangle.h" />
     <ClInclude Include="winapp\WinApp.h" />

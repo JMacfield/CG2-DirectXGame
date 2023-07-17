@@ -58,6 +58,18 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{40efd8b2-9f77-493b-afc2-81b435eae6e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\gamescene">
+      <UniqueIdentifier>{a0590391-3808-4ff1-a8ae-f52d8b59d315}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\gamescene">
+      <UniqueIdentifier>{a8438092-d775-4662-8742-86d9357bfaef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\sprite">
+      <UniqueIdentifier>{00dce434-e3ca-4d28-8005-76b979dd1a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\sprite">
+      <UniqueIdentifier>{22b09030-83f7-4a5c-9a0a-beeb4f2d3cef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -101,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="gamescene\GameScene.cpp">
+      <Filter>ソース ファイル\gamescene</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite\Sprite.cpp">
+      <Filter>ソース ファイル\sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="math\Vector2.h">
       <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="gamescene\GameScene.h">
+      <Filter>ヘッダー ファイル\gamescene</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite\Sprite.h">
+      <Filter>ヘッダー ファイル\sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
