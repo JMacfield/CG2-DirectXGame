@@ -13,7 +13,7 @@ void Triangle::Initialize(DirectXCommon* direct, YTEngine* engine) {
 
 void Triangle::SetColor() {
 	materialResource_ = CreateBufferResource(direct_->GetDevice(),
-		sizeof(Vector4));
+		sizeof(VertexData));
 
 	materialResource_->Map(0, nullptr,
 		reinterpret_cast<void**>(&materialData_));
