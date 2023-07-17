@@ -58,7 +58,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>C:\Users\kruge\source\repos\CG2_DirectXGame\winapp;C:\Users\kruge\source\repos\CG2_DirectXGame\triangle;C:\Users\kruge\source\repos\CG2_DirectXGame\shader;C:\Users\kruge\source\repos\CG2_DirectXGame\math;C:\Users\kruge\source\repos\CG2_DirectXGame\engine;C:\Users\kruge\source\repos\CG2_DirectXGame\directx;C:\Users\kruge\source\repos\CG2_DirectXGame\convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)winapp;$(ProjectDir)triangle;$(ProjectDir)shader;$(ProjectDir)math;$(ProjectDir)engine;$(ProjectDir)directx;$(ProjectDir)convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -86,7 +86,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>C:\Users\kruge\source\repos\CG2_DirectXGame\winapp;C:\Users\kruge\source\repos\CG2_DirectXGame\triangle;C:\Users\kruge\source\repos\CG2_DirectXGame\shader;C:\Users\kruge\source\repos\CG2_DirectXGame\math;C:\Users\kruge\source\repos\CG2_DirectXGame\engine;C:\Users\kruge\source\repos\CG2_DirectXGame\directx;C:\Users\kruge\source\repos\CG2_DirectXGame\convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)winapp;$(ProjectDir)triangle;$(ProjectDir)shader;$(ProjectDir)math;$(ProjectDir)engine;$(ProjectDir)directx;$(ProjectDir)convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
