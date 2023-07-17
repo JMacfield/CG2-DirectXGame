@@ -133,7 +133,7 @@ void YTEngine::CreateInputlayOut() {
 
 	inputElementDescs_[1].SemanticName = "TEXCOORD";
 	inputElementDescs_[1].SemanticIndex = 0;
-	inputElementDescs_[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs_[1].Format = DXGI_FORMAT_R32G32_FLOAT;
 	inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
 	inputLayoutDesc_.pInputElementDescs = inputElementDescs_;
@@ -204,17 +204,17 @@ void YTEngine::SettingScissor() {
 }
 
 void YTEngine::variableInitialize() {
-	data1[0] = { -0.1f,0.1f,0.0f,1.0f };
-	data2[0] = { 0.0f,0.3f,0.0f,1.0f };
-	data3[0] = { 0.1f,0.1f,0.0f,1.0f };
+	data1[0] = { -0.4f,-0.1f,0.0f,1.0f };
+	data2[0] = { 0.0f,0.1f,0.0f,1.0f };
+	data3[0] = { 0.4f,-0.1f,0.0f,1.0f };
 	
-	data1[1] = { -0.1f,-0.3f,0.0f,1.0f };
+	data1[1] = { -0.4f,-0.3f,0.0f,1.0f };
 	data2[1] = { 0.0f,-0.1f,0.0f,1.0f };
-	data3[1] = { 0.1f,-0.3f,0.0f,1.0f };
+	data3[1] = { 0.4f,-0.3f,0.0f,1.0f };
 	
-	data1[2] = { -0.1f,-0.7f,0.0f,1.0f };
-	data2[2] = { 0.0f,-0.5f,0.0f,1.0f };
-	data3[2] = { 0.1f,-0.7f,0.0f,1.0f };
+	data1[2] = { -0.4f,-0.5f,0.0f,1.0f };
+	data2[2] = { 0.0f,-0.3f,0.0f,1.0f };
+	data3[2] = { 0.4f,-0.5f,0.0f,1.0f };
 	
 	material[0] = { 1.0f,1.0f,1.0f,1.0f };
 	material[1] = { 1.0f,1.0f,1.0f,1.0f };
