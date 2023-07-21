@@ -241,9 +241,9 @@ void YTEngine::variableInitialize() {
 	//data2[9] = { 0.75f,-0.7f,0.0f,1.0f };
 	//data3[9] = { 0.6f,-0.5f,0.0f,1.0f };
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 3; i++) {
 		triangle[i] = new Triangle();
-		triangle[i]->Initialize(direct_);
+		triangle[i]->Initialize(direct_,data1[i],data2[i],data3[i]);
 	}
 }
 
@@ -283,7 +283,7 @@ void YTEngine::EndFrame() {
 }
 
 void YTEngine::Finalize() {
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 3; i++) {
 		triangle[i]->Finalize();
 	}
 	graphicsPipelineState_->Release();
@@ -302,8 +302,8 @@ void YTEngine::Update() {
 }
 
 void YTEngine::Draw() {
-	for (int i = 0; i < 10; i++) {
-		triangle[i]->Draw(data1[i], data2[i], data3[i]);
+	for (int i = 0; i < 3; i++) {
+		triangle[i]->Draw();
 	}
 }
 

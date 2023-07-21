@@ -2,17 +2,13 @@
 #include <assert.h>
 #include "YTEngine.h"
 
-void Triangle::Initialize(DirectXCommon* direct) {
+void Triangle::Initialize(DirectXCommon* direct, const Vector4& a, const Vector4& b, const Vector4& c) {
 	direct_ = direct;
-	SettingVertex();
+	SettingVertex(a, b, c);
 
 }
 
-void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c) {
-	vertexData_[0] = a;
-	vertexData_[1] = b;
-	vertexData_[2] = c;
-
+void Triangle::Draw() {
 	direct_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	direct_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	direct_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
@@ -23,7 +19,7 @@ void Triangle::Finalize() {
 	vertexResource_->Release();
 }
 
-void Triangle::SettingVertex() {
+void Triangle::SettingVertex(const Vector4& a, const Vector4& b, const Vector4& c) {
 	D3D12_HEAP_PROPERTIES uplodeHeapProperties{};
 	uplodeHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
 
@@ -52,4 +48,8 @@ void Triangle::SettingVertex() {
 	vertexBufferView_.StrideInBytes = sizeof(Vector4);
 
 	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
+
+	vertexData_[0] = a;
+	vertexData_[1] = b;
+	vertexData_[2] = c;
 }

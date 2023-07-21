@@ -8,12 +8,12 @@ class YTEngine;
 class Triangle
 {
 public:
-	void Initialize(DirectXCommon* direct);
-	void Draw(const Vector4& a, const Vector4& b, const Vector4& c);
+	void Initialize(DirectXCommon* direct, const Vector4& a, const Vector4& b, const Vector4& c);
+	void Draw();
 	void Finalize();
 
 private:
-	void SettingVertex();
+	void SettingVertex(const Vector4& a, const Vector4& b, const Vector4& c);
 
 private:
 	YTEngine* Engine;
