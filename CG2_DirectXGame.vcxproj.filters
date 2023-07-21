@@ -9,90 +9,84 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\convert">
-      <UniqueIdentifier>{3cc1a511-80b4-44ce-a4d9-4cbf9cb0270f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\convert">
-      <UniqueIdentifier>{5f2c6461-c53d-4499-b312-620e669c7249}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\directx">
-      <UniqueIdentifier>{36b599b4-7b18-4861-800b-a79d2c04cd7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\engine">
-      <UniqueIdentifier>{5133f36f-5f37-474f-b6d3-6f27dbb09fd9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\engine">
-      <UniqueIdentifier>{57aead06-038c-426d-a2e2-8e7b0cdd198d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\math">
-      <UniqueIdentifier>{3e438cad-3b07-4c11-867d-fb98b7326177}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\math">
-      <UniqueIdentifier>{af6a4039-3e1c-4561-a150-7b291c3777d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\triangle">
-      <UniqueIdentifier>{619b02dc-a37e-46e1-85a5-7539b96db4e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\triangle">
-      <UniqueIdentifier>{1d3bce9a-c5a4-43aa-a9fe-e5fbe0b146d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\winapp">
-      <UniqueIdentifier>{0b9d4c15-be7a-4842-a7a8-1623f239c9d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\winapp">
-      <UniqueIdentifier>{9625f67a-57c0-4d7d-b41a-0d597e7a1899}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\directx">
-      <UniqueIdentifier>{bdedde64-ee0e-4cdf-8a1a-0a68cdd95a53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\transform">
-      <UniqueIdentifier>{ca15ddd8-3681-4a24-8405-131a903a0852}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="リソース ファイル\shader">
-      <UniqueIdentifier>{06b59aca-6780-4f45-ad52-f7c6f618012d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{40efd8b2-9f77-493b-afc2-81b435eae6e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\gamescene">
-      <UniqueIdentifier>{a0590391-3808-4ff1-a8ae-f52d8b59d315}</UniqueIdentifier>
+    <Filter Include="リソース ファイル\Shader">
+      <UniqueIdentifier>{81bd11fc-c0dc-48ef-88f3-7cb007b99338}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\gamescene">
-      <UniqueIdentifier>{a8438092-d775-4662-8742-86d9357bfaef}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\EngineBase">
+      <UniqueIdentifier>{c1a2abc6-03ac-46b0-afbf-35f30323ab6d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\sprite">
-      <UniqueIdentifier>{00dce434-e3ca-4d28-8005-76b979dd1a32}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\EngineBase\DirectX">
+      <UniqueIdentifier>{31f46fa5-78b5-4eec-853f-1d0097066056}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\sprite">
-      <UniqueIdentifier>{22b09030-83f7-4a5c-9a0a-beeb4f2d3cef}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\EngineBase\WinApp">
+      <UniqueIdentifier>{9f1932e2-c1e8-44b1-b26d-304310782dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\EngineBase\Triangle">
+      <UniqueIdentifier>{6a2f7cd4-2b1f-4dd7-891a-4c7d393a4146}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\EngineBase\YTEngine">
+      <UniqueIdentifier>{cd2c29cd-f614-41f0-8731-9907c441c097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EngineBase">
+      <UniqueIdentifier>{96533808-fd05-4c4e-9704-51e6ed89c27e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EngineBase\DirectX">
+      <UniqueIdentifier>{89d29057-a91d-4c29-bfb9-4c4659f8e777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EngineBase\WinApp">
+      <UniqueIdentifier>{3f54a546-cc5f-45de-b1fe-2720029d1b33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EngineBase\Triangle">
+      <UniqueIdentifier>{62e80fc2-c778-456d-a98b-8aa87ce11fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EngineBase\YTEngine">
+      <UniqueIdentifier>{2badda3e-e1f7-498e-a9ce-8e6714a1df79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameScene">
+      <UniqueIdentifier>{00f66263-9bfe-4961-a3f9-bd77b5386b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameScene">
+      <UniqueIdentifier>{35ee664f-a86b-4d50-9db5-286c8050a462}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ImGuiManager">
+      <UniqueIdentifier>{0be8df4e-b7e7-40f6-909a-98a47eb6ee06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ImGuiManager">
+      <UniqueIdentifier>{20cb88bf-9b23-438f-80e7-4abeaf90adea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Math">
+      <UniqueIdentifier>{0fcfe0c4-9b4b-4f60-9755-e2d4120f82db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Math">
+      <UniqueIdentifier>{da259fd0-4bf3-48ad-9c22-07a1845ecf26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Sprite">
+      <UniqueIdentifier>{3f6f4ab8-d80d-40dd-b61d-27a8214df369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Sprite">
+      <UniqueIdentifier>{b8157816-71b5-4a44-a445-dfc903c6f272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Utilities">
+      <UniqueIdentifier>{2709eb72-c37c-4780-bb55-ccf796086e73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Utilities">
+      <UniqueIdentifier>{4b8e4747-1a33-41b9-8343-1ac176a86653}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Utilities\ConvertString">
+      <UniqueIdentifier>{4d30655e-c0ee-40ae-81b8-8f73c5a45be8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Utilities\ConvertString">
+      <UniqueIdentifier>{4c26cafe-0a91-4623-8160-63a78a9828d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="convert\ConvertString.cpp">
-      <Filter>ソース ファイル\convert</Filter>
-    </ClCompile>
-    <ClCompile Include="directx\DirectXCommon.cpp">
-      <Filter>ソース ファイル\directx</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\YTEngine.cpp">
-      <Filter>ソース ファイル\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="triangle\Triangle.cpp">
-      <Filter>ソース ファイル\triangle</Filter>
-    </ClCompile>
-    <ClCompile Include="winapp\WinApp.cpp">
-      <Filter>ソース ファイル\winapp</Filter>
-    </ClCompile>
-    <ClCompile Include="math\MatrixCalculate.cpp">
-      <Filter>ソース ファイル\math</Filter>
-    </ClCompile>
     <ClCompile Include="externals\imgui\imgui.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
@@ -114,44 +108,36 @@
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="gamescene\GameScene.cpp">
-      <Filter>ソース ファイル\gamescene</Filter>
+    <ClCompile Include="YTEngine\EngineBase\DirectX\DirectXCommon.cpp">
+      <Filter>ソース ファイル\EngineBase\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="sprite\Sprite.cpp">
-      <Filter>ソース ファイル\sprite</Filter>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="YTEngine\EngineBase\Engine\YTEngine.cpp">
+      <Filter>ソース ファイル\EngineBase\YTEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\EngineBase\WinApp\WinApp.cpp">
+      <Filter>ソース ファイル\EngineBase\WinApp</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\GameScene\GameScene.cpp">
+      <Filter>ソース ファイル\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\ImGuiManager\ImGuiManager.cpp">
+      <Filter>ソース ファイル\ImGuiManager</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\Math\MatrixCalculate.cpp">
+      <Filter>ソース ファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\Sprite\Sprite.cpp">
+      <Filter>ソース ファイル\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\Utilities\ConvertString\ConvertString.cpp">
+      <Filter>ソース ファイル\Utilities\ConvertString</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\EngineBase\Triangle\Triangle.cpp">
+      <Filter>ソース ファイル\EngineBase\Triangle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="convert\ConvertString.h">
-      <Filter>ヘッダー ファイル\convert</Filter>
-    </ClInclude>
-    <ClInclude Include="directx\DirectXCommon.h">
-      <Filter>ヘッダー ファイル\directx</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\YTEngine.h">
-      <Filter>ヘッダー ファイル\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="math\Vector4.h">
-      <Filter>ヘッダー ファイル\math</Filter>
-    </ClInclude>
-    <ClInclude Include="triangle\Triangle.h">
-      <Filter>ヘッダー ファイル\triangle</Filter>
-    </ClInclude>
-    <ClInclude Include="winapp\WinApp.h">
-      <Filter>ヘッダー ファイル\winapp</Filter>
-    </ClInclude>
-    <ClInclude Include="math\Matrix4x4.h">
-      <Filter>ヘッダー ファイル\math</Filter>
-    </ClInclude>
-    <ClInclude Include="math\MatrixCalculate.h">
-      <Filter>ヘッダー ファイル\math</Filter>
-    </ClInclude>
-    <ClInclude Include="math\Vector3.h">
-      <Filter>ヘッダー ファイル\math</Filter>
-    </ClInclude>
-    <ClInclude Include="transform\Transform.h">
-      <Filter>ヘッダー ファイル\transform</Filter>
-    </ClInclude>
     <ClInclude Include="externals\imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
@@ -176,23 +162,45 @@
     <ClInclude Include="externals\imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="math\Vector2.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+    <ClInclude Include="YTEngine\EngineBase\DirectX\DirectXCommon.h">
+      <Filter>ヘッダー ファイル\EngineBase\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="gamescene\GameScene.h">
-      <Filter>ヘッダー ファイル\gamescene</Filter>
+    <ClInclude Include="YTEngine\EngineBase\Engine\YTEngine.h">
+      <Filter>ヘッダー ファイル\EngineBase\YTEngine</Filter>
     </ClInclude>
-    <ClInclude Include="sprite\Sprite.h">
-      <Filter>ヘッダー ファイル\sprite</Filter>
+    <ClInclude Include="YTEngine\EngineBase\Triangle\Triangle.h">
+      <Filter>ヘッダー ファイル\EngineBase\Triangle</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="shader\Object3d.PS.hlsl">
-      <Filter>リソース ファイル\shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\Object3d.VS.hlsl">
-      <Filter>リソース ファイル\shader</Filter>
-    </FxCompile>
+    <ClInclude Include="YTEngine\EngineBase\WinApp\WinApp.h">
+      <Filter>ヘッダー ファイル\EngineBase\WinApp</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\GameScene\GameScene.h">
+      <Filter>ヘッダー ファイル\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\ImGuiManager\ImGuiManager.h">
+      <Filter>ヘッダー ファイル\ImGuiManager</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\Math\MatrixCalculate.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\Math\Vector2.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\Math\Vector3.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\Math\Vector4.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\Math\Matrix4x4.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\Sprite\Sprite.h">
+      <Filter>ヘッダー ファイル\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\Utilities\ConvertString\ConvertString.h">
+      <Filter>ヘッダー ファイル\Utilities\ConvertString</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -200,8 +208,16 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\Object3d.hlsli">
-      <Filter>リソース ファイル\shader</Filter>
+    <None Include="YTEngine\Shader\Object3d.hlsli">
+      <Filter>リソース ファイル\Shader</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="YTEngine\Shader\Object3d.PS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="YTEngine\Shader\Object3d.VS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

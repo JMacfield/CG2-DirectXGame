@@ -58,7 +58,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)gamescene;$(ProjectDir)transform;$(ProjectDir)winapp;$(ProjectDir)triangle;$(ProjectDir)shader;$(ProjectDir)math;$(ProjectDir)engine;$(ProjectDir)directx;$(ProjectDir)convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)YTEngine/ImGuiManager;$(ProjectDir)YTEngine/GamaScene;$(ProjectDir)YTEngine/EngineBase/WinApp;$(ProjectDir)YTEngine/EngineBase/Triangle;$(ProjectDir)YTEngine/Shader;$(ProjectDir)YTEngine/Math;$(ProjectDir)YTEngine/EngineBase/Engine;$(ProjectDir)YTEngine/EngineBase/DirectX;$(ProjectDir)YTEngine/Utilities/ConvertString;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -86,7 +86,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)gamescene;$(ProjectDir)transform;$(ProjectDir)winapp;$(ProjectDir)triangle;$(ProjectDir)shader;$(ProjectDir)math;$(ProjectDir)engine;$(ProjectDir)directx;$(ProjectDir)convert;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)YTEngine/ImGuiManager;$(ProjectDir)YTEngine/GamaScene;$(ProjectDir)YTEngine/EngineBase/WinApp;$(ProjectDir)YTEngine/EngineBase/Triangle;$(ProjectDir)YTEngine/Shader;$(ProjectDir)YTEngine/Math;$(ProjectDir)YTEngine/EngineBase/Engine;$(ProjectDir)YTEngine/EngineBase/DirectX;$(ProjectDir)YTEngine/Utilities/ConvertString;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -106,9 +106,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="convert\ConvertString.cpp" />
-    <ClCompile Include="directx\DirectXCommon.cpp" />
-    <ClCompile Include="engine\YTEngine.cpp" />
     <ClCompile Include="externals\imgui\imgui.cpp" />
     <ClCompile Include="externals\imgui\imgui_demo.cpp" />
     <ClCompile Include="externals\imgui\imgui_draw.cpp" />
@@ -116,17 +113,18 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="gamescene\GameScene.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="math\MatrixCalculate.cpp" />
-    <ClCompile Include="sprite\Sprite.cpp" />
-    <ClCompile Include="triangle\Triangle.cpp" />
-    <ClCompile Include="winapp\WinApp.cpp" />
+    <ClCompile Include="YTEngine\EngineBase\DirectX\DirectXCommon.cpp" />
+    <ClCompile Include="YTEngine\EngineBase\Engine\YTEngine.cpp" />
+    <ClCompile Include="YTEngine\EngineBase\Triangle\Triangle.cpp" />
+    <ClCompile Include="YTEngine\EngineBase\WinApp\WinApp.cpp" />
+    <ClCompile Include="YTEngine\GameScene\GameScene.cpp" />
+    <ClCompile Include="YTEngine\ImGuiManager\ImGuiManager.cpp" />
+    <ClCompile Include="YTEngine\Math\MatrixCalculate.cpp" />
+    <ClCompile Include="YTEngine\Sprite\Sprite.cpp" />
+    <ClCompile Include="YTEngine\Utilities\ConvertString\ConvertString.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="convert\ConvertString.h" />
-    <ClInclude Include="directx\DirectXCommon.h" />
-    <ClInclude Include="engine\YTEngine.h" />
     <ClInclude Include="externals\imgui\imconfig.h" />
     <ClInclude Include="externals\imgui\imgui.h" />
     <ClInclude Include="externals\imgui\imgui_impl_dx12.h" />
@@ -135,26 +133,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
-    <ClInclude Include="gamescene\GameScene.h" />
-    <ClInclude Include="math\Matrix4x4.h" />
-    <ClInclude Include="math\MatrixCalculate.h" />
-    <ClInclude Include="math\Vector2.h" />
-    <ClInclude Include="math\Vector3.h" />
-    <ClInclude Include="math\Vector4.h" />
-    <ClInclude Include="sprite\Sprite.h" />
-    <ClInclude Include="transform\Transform.h" />
-    <ClInclude Include="triangle\Triangle.h" />
-    <ClInclude Include="winapp\WinApp.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="shader\Object3d.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="shader\Object3d.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
+    <ClInclude Include="YTEngine\EngineBase\DirectX\DirectXCommon.h" />
+    <ClInclude Include="YTEngine\EngineBase\Engine\YTEngine.h" />
+    <ClInclude Include="YTEngine\EngineBase\Triangle\Triangle.h" />
+    <ClInclude Include="YTEngine\EngineBase\WinApp\WinApp.h" />
+    <ClInclude Include="YTEngine\GameScene\GameScene.h" />
+    <ClInclude Include="YTEngine\ImGuiManager\ImGuiManager.h" />
+    <ClInclude Include="YTEngine\Math\Matrix4x4.h" />
+    <ClInclude Include="YTEngine\Math\MatrixCalculate.h" />
+    <ClInclude Include="YTEngine\Math\Vector2.h" />
+    <ClInclude Include="YTEngine\Math\Vector3.h" />
+    <ClInclude Include="YTEngine\Math\Vector4.h" />
+    <ClInclude Include="YTEngine\Sprite\Sprite.h" />
+    <ClInclude Include="YTEngine\Utilities\ConvertString\ConvertString.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt" />
@@ -165,7 +156,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\Object3d.hlsli" />
+    <None Include="YTEngine\Shader\Object3d.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="YTEngine\Shader\Object3d.PS.hlsl" />
+    <FxCompile Include="YTEngine\Shader\Object3d.VS.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
