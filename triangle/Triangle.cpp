@@ -2,27 +2,22 @@
 #include <assert.h>
 #include "YTEngine.h"
 
-void Triangle::Initialize(DirectXCommon* direct) {
+void Triangle::Initialize(DirectXCommon* direct, const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material) {
 	direct_ = direct;
-	SettingVertex();
-	SetColor();
+	SettingVertex(a,b,c);
+	SetColor(material);
 }
 
-void Triangle::SetColor() {
+void Triangle::SetColor(const Vector4& material) {
 	materialResource_ = CreateBufferResource(direct_->GetDevice(),
 		sizeof(Vector4));
 
 	materialResource_->Map(0, nullptr,
 		reinterpret_cast<void**>(&materialData_));
+	*materialData_ = material;
 }
 
-void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material) {
-	vertexData_[0] = a;
-	vertexData_[1] = b;
-	vertexData_[2] = c;
-
-	*materialData_ = material;
-
+void Triangle::Draw() {
 	direct_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	direct_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	direct_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
@@ -34,7 +29,7 @@ void Triangle::Finalize() {
 	vertexResource_->Release();
 }
 
-void Triangle::SettingVertex() {
+void Triangle::SettingVertex(const Vector4& a, const Vector4& b, const Vector4& c) {
 	vertexResource_ = CreateBufferResource(direct_->GetDevice(),
 		sizeof(Vector4) * 3);
 	vertexBufferView_.BufferLocation =
@@ -43,6 +38,10 @@ void Triangle::SettingVertex() {
 	vertexBufferView_.StrideInBytes = sizeof(Vector4);
 	vertexResource_->Map(0, nullptr,
 		reinterpret_cast<void**>(&vertexData_));
+
+	vertexData_[0] = a;
+	vertexData_[1] = b;
+	vertexData_[2] = c;
 }
 
 ID3D12Resource* Triangle::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
