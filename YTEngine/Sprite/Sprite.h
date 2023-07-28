@@ -12,11 +12,11 @@ public:
 
 private:
 	DirectXCommon* directXCommon_;
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	ID3D12Resource* vertexResource;
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
+	ID3D12Resource* vertexResource_;
 	VertexData* vertexData_;
-	ID3D12Resource* transformationMatrixResource;
-	Matrix4x4 transformationMatrixData;
+	ID3D12Resource* transformationMatrixResource_;
+	Matrix4x4* transformationMatrixData_;
 
 private:
 	void CreateVertexData();

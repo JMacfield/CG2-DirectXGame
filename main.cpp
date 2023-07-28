@@ -1,31 +1,36 @@
 #include "YTEngine.h"
-#include "Triangle.h"
+#include "GameScene.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
-	WinApp* win_ = nullptr;
-	YTEngine* Engine = new YTEngine;
+	WinApp* winApp_ = nullptr;
+	YTEngine* engine = new YTEngine;
 	
-	Engine->Initialize(win_, 1280, 720);
-
-	Engine->variableInitialize();
+	engine->Initialize(winApp_, 1280, 720);
+	
+	GameScene* gameScene = new GameScene;
+	gameScene->Initialize(engine, engine->GetDirectXCommon());
 
 	while (true) {
-		if (win_->ProcessMessage()) {
+		if (winApp_->ProcessMessage()) {
 			break;
 		}
 
-		Engine->BeginFrame();
+		engine->BeginFrame();
 
-		Engine->Update();
+		gameScene->Update();
 
-		Engine->Draw();
+		gameScene->Draw3D();
+		gameScene->Draw2D();
 
-		Engine->EndFrame();
+		engine->Draw();
+
+		engine->EndFrame();
 	}
 
-	Engine->Finalize();
+	gameScene->Finalize();
+	engine->Finalize();
 	CoUninitialize();
 
 	return 0;

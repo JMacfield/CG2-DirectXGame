@@ -20,9 +20,9 @@ public:
 	static const int32_t kClientHeight = 720;
 
 	inline HWND GetHwnd() { return hwnd_; }
-	HINSTANCE GetHInstance()const { return wc_.hInstance; }
 	
 	bool ProcessMessage();
+
 	void Finalize();
 	
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
@@ -32,8 +32,10 @@ public:
 
 private:
 	ID3D12Debug1* debugController_;
+
 	WNDCLASS wc_{};
 	RECT wrc_ = { 0,0,kClientWidth,kClientHeight };
+	
 	HWND hwnd_;
 	UINT windowStyle_;
 };

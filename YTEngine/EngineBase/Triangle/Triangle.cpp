@@ -2,8 +2,8 @@
 #include <assert.h>
 #include "YTEngine.h"
 
-void Triangle::Initialize(DirectXCommon* direct, YTEngine* engine) {
-	direct_ = direct;
+void Triangle::Initialize(DirectXCommon* directXCommon, YTEngine* engine) {
+	directXCommon_ = directXCommon;
 	engine_ = engine;
 
 	SettingVertex();
@@ -13,13 +13,15 @@ void Triangle::Initialize(DirectXCommon* direct, YTEngine* engine) {
 
 void Triangle::SetColor() {
 	materialResource_ = DirectXCommon::CreateBufferResource(
-		direct_->GetDevice(), sizeof(VertexData));
+		directXCommon_->GetDevice(), sizeof(VertexData));
 
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 }
 
 void Triangle::TransformMatrix() {
-	wvpResource_ = DirectXCommon::CreateBufferResource(direct_->GetDevice(), sizeof(Matrix4x4));
+	wvpResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(Matrix4x4));
+	wvpResource_->Map(0, NULL, reinterpret_cast<void**>(&wvpData_));
+	*wvpData_ = MakeIdentity4x4();
 }
 
 void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material, const Matrix4x4& wvpData) {
@@ -35,15 +37,15 @@ void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c, const 
 	*materialData_ = material;
 	*wvpData_ = wvpData;
 
-	direct_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
-	direct_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	
-	direct_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
-	direct_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
-
-	direct_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->GetTextureSrvHandleGPU());
-
-	direct_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
+	directXCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
+	directXCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		 
+	directXCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
+	directXCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
+		 
+	directXCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->GetTextureSrvHandleGPU());
+		 
+	directXCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
 
 void Triangle::Finalize() {
@@ -53,7 +55,7 @@ void Triangle::Finalize() {
 }
 
 void Triangle::SettingVertex() {
-	vertexResource_ = DirectXCommon::CreateBufferResource(direct_->GetDevice(),
+	vertexResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(),
 		sizeof(VertexData) * 3);
 	vertexBufferView_.BufferLocation =
 		vertexResource_->GetGPUVirtualAddress();

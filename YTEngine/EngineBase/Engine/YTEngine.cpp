@@ -4,9 +4,9 @@
 IDxcBlob* YTEngine::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
 	Log(ConvertString(std::format(L"Begin CompileShader, path:{},profile:{}\n", filePath, profile)));
 	IDxcBlobEncoding* shaderSource = nullptr;
-	direct_->SetHr(dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource));
+	directXCommon_->SetHr(dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource));
 	
-	assert(SUCCEEDED(direct_->GetHr()));
+	assert(SUCCEEDED(directXCommon_->GetHr()));
 	
 	DxcBuffer shaderSourceBuffer;
 	shaderSourceBuffer.Ptr = shaderSource->GetBufferPointer();
@@ -23,7 +23,7 @@ IDxcBlob* YTEngine::CompileShader(const std::wstring& filePath, const wchar_t* p
 	};
 
 	IDxcResult* shaderResult = nullptr;
-	direct_->SetHr(dxcCompiler->Compile(
+	directXCommon_->SetHr(dxcCompiler->Compile(
 		&shaderSourceBuffer,
 		arguments,
 		_countof(arguments),
@@ -31,7 +31,7 @@ IDxcBlob* YTEngine::CompileShader(const std::wstring& filePath, const wchar_t* p
 		IID_PPV_ARGS(&shaderResult)
 	));
 
-	assert(SUCCEEDED(direct_->GetHr()));
+	assert(SUCCEEDED(directXCommon_->GetHr()));
 
 	IDxcBlobUtf8* shaderError = nullptr;
 	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError), nullptr);
@@ -41,8 +41,8 @@ IDxcBlob* YTEngine::CompileShader(const std::wstring& filePath, const wchar_t* p
 	}
 
 	IDxcBlob* shaderBlob = nullptr;
-	direct_->SetHr(shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr));
-	assert(SUCCEEDED(direct_->GetHr()));
+	directXCommon_->SetHr(shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr));
+	assert(SUCCEEDED(directXCommon_->GetHr()));
 	
 	Log(ConvertString(std::format(L"Compile Succeeded, path:{},profile:{}\n", filePath, profile)));
 	
@@ -114,13 +114,13 @@ void YTEngine::CreateRootSignature() {
 	hr = D3D12SerializeRootSignature(&descriptionRootSignature,
 		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob_, &errorBlob_);
 
-	if (FAILED(direct_->GetHr())) {
+	if (FAILED(directXCommon_->GetHr())) {
 		Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
 		assert(false);
 	}
 	
 	rootSignature_ = nullptr;
-	hr = direct_->GetDevice()->CreateRootSignature(0, signatureBlob_->GetBufferPointer(),
+	hr = directXCommon_->GetDevice()->CreateRootSignature(0, signatureBlob_->GetBufferPointer(),
 		signatureBlob_->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
 	assert(SUCCEEDED(hr));
 }
@@ -182,7 +182,7 @@ void YTEngine::InitializePSO() {
 	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 	
 	graphicsPipelineState_ = nullptr;
-	HRESULT hr = direct_->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
+	HRESULT hr = directXCommon_->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
 		IID_PPV_ARGS(&graphicsPipelineState_));
 	assert(SUCCEEDED(hr));
 }
@@ -203,116 +203,90 @@ void YTEngine::SettingScissor() {
 	scissorRect_.bottom = WinApp::kClientHeight;
 }
 
-void YTEngine::variableInitialize() {
-	data1[0] = { -0.1f,0.1f,0.0f,1.0f };
-	data2[0] = { 0.0f,0.3f,0.0f,1.0f };
-	data3[0] = { 0.1f,0.1f,0.0f,1.0f };
-	
-	data1[1] = { -0.1f,-0.3f,0.0f,1.0f };
-	data2[1] = { 0.0f,-0.1f,0.0f,1.0f };
-	data3[1] = { 0.1f,-0.3f,0.0f,1.0f };
-	
-	data1[2] = { -0.1f,-0.7f,0.0f,1.0f };
-	data2[2] = { 0.0f,-0.5f,0.0f,1.0f };
-	data3[2] = { 0.1f,-0.7f,0.0f,1.0f };
-	
-	material[0] = { 1.0f,1.0f,1.0f,1.0f };
-	material[1] = { 1.0f,1.0f,1.0f,1.0f };
-	material[2] = { 1.0f,1.0f,1.0f,1.0f };
-
-	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
-	vertexTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-
-	for (int i = 0; i < 3; i++) {
-		triangle[i] = new Triangle();
-		triangle[i]->Initialize(direct_, this);
-	}
-
-	LoadTexture("resources/uvChecker.png");
+void YTEngine::SettingDepth() {
+	depthStencilDesc_.DepthEnable = true;
+	depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 }
 
-void YTEngine::Initialize(WinApp* win, int32_t width, int32_t height) {
-	direct_->Initialize(win, win->kClientWidth, win->kClientHeight);
+void YTEngine::VariableInitialize() {
+
+}
+
+void YTEngine::Initialize(WinApp* winApp, int32_t width, int32_t height) {
+	winApp_ = winApp;
+	winApp_ = new WinApp();
+
+	directXCommon_ = new DirectXCommon;
+	directXCommon_->Initialize(winApp_, winApp_->kClientWidth, winApp_->kClientHeight);
+
+	imguiManager_ = new ImGuiManager();
+	imguiManager_->Initialize(winApp_, directXCommon_);
 
 	InitializeDxcCompiler();
 
-
 	CreateRootSignature();
 	CreateInputlayOut();
-
 
 	SettingBlendState();
 
 	SettingRasterizerState();
 
+	SettingDepth();
 	InitializePSO();
 
 	SettingViewPort();
-
 	SettingScissor();
-
-	direct_->ImGuiInitialize();
 }
 
 
 void YTEngine::BeginFrame() {
-	direct_->PreDraw();
-	direct_->GetCommandList()->RSSetViewports(1, &viewPort_);
-	direct_->GetCommandList()->RSSetScissorRects(1, &scissorRect_);
-	
-	direct_->GetCommandList()->SetGraphicsRootSignature(rootSignature_);
-	direct_->GetCommandList()->SetPipelineState(graphicsPipelineState_);
+	imguiManager_->Begin();
 
-	ImGui::ShowDemoWindow();
+	directXCommon_->PreDraw();
+	directXCommon_->GetCommandList()->RSSetViewports(1, &viewPort_);
+	directXCommon_->GetCommandList()->RSSetScissorRects(1, &scissorRect_);
+	
+	directXCommon_->GetCommandList()->SetGraphicsRootSignature(rootSignature_);
+	directXCommon_->GetCommandList()->SetPipelineState(graphicsPipelineState_);
+
+	directXCommon_->PreDraw();
 }
 
 void YTEngine::EndFrame() {
-	ImGui::Render();
-	direct_->PostDraw();
+	imguiManager_->End();
+	imguiManager_->Draw();
+
+	directXCommon_->PostDraw();
 }
 
 void YTEngine::Finalize() {
-	textureResource->Release();
+	intermediateResource_->Release();
+	textureResource_->Release();
 
-	for (int i = 0; i < 3; i++) {
-		triangle[i]->Finalize();
-	}
+	imguiManager_->Finalize();
 
 	graphicsPipelineState_->Release();
+
 	signatureBlob_->Release();
-	
 	if (errorBlob_) {
 		errorBlob_->Release();
 	}
 
 	rootSignature_->Release();
+
 	pixelShaderBlob_->Release();
 	vertexShaderBlob_->Release();
-	direct_->Finalize();
+
+	directXCommon_->Finalize();
 }
 
 void YTEngine::Update() {
-	worldMatrix_ = MakeAffineMatrix(vertexTransform_.scale, vertexTransform_.rotate, vertexTransform_.translate);
-	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
-	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
-	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(win_->kClientWidth) / float(win_->kClientHeight), 0.1f, 100.0f);
-	Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix_, Multiply(viewMatrix, projectionMatrix));
-
-	//material[0].x += 0.01f;
-	//vertexTransform_.rotate.y += 0.03f;
 	
-	worldMatrix_ = worldViewProjectionMatrix;
-
-	ImGui::Begin("Window");
-	ImGui::DragFloat3("CameraTranslate", &cameraTransform_.translate.x, 0.01f);
-
-	ImGui::End();
 }
 
 void YTEngine::Draw() {
-	for (int i = 0; i < 3; i++) {
-		triangle[i]->Draw(data1[i], data2[i], data3[i],material[i],worldMatrix_);
-	}
+	ImGui::ShowDemoWindow();
 }
 
 ID3D12Resource* YTEngine::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata)
@@ -365,8 +339,8 @@ void YTEngine::LoadTexture(const std::string& filePath) {
 	DirectX::ScratchImage mipImage = SendTexture(filePath);
 	const DirectX::TexMetadata& metaData = mipImage.GetMetadata();
 
-	textureResource = CreateTextureResource(direct_->GetDevice(), metaData);
-	UploadTextureData(textureResource, mipImage);
+	textureResource_ = CreateTextureResource(directXCommon_->GetDevice(), metaData);
+	UploadTextureData(textureResource_, mipImage);
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Format = metaData.format;
@@ -374,14 +348,14 @@ void YTEngine::LoadTexture(const std::string& filePath) {
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
 
-	textureSrvHandleGPU_ = direct_->GetSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
-	textureSrvHandleCPU_ = direct_->GetSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
+	textureSrvHandleGPU_ = directXCommon_->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
+	textureSrvHandleCPU_ = directXCommon_->GetSrvHeap()->GetCPUDescriptorHandleForHeapStart();
 
-	textureSrvHandleGPU_.ptr += direct_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	textureSrvHandleCPU_.ptr += direct_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	textureSrvHandleGPU_.ptr += directXCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	textureSrvHandleCPU_.ptr += directXCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	
-	direct_->GetDevice()->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU_);
+	directXCommon_->GetDevice()->CreateShaderResourceView(textureResource_, &srvDesc, textureSrvHandleCPU_);
 }
 
-WinApp* YTEngine::win_;
-DirectXCommon* YTEngine::direct_;
+WinApp* YTEngine::winApp_;
+DirectXCommon* YTEngine::directXCommon_;

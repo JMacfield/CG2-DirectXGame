@@ -8,8 +8,10 @@ class YTEngine;
 class Triangle
 {
 public:
-	void Initialize(DirectXCommon* direct, YTEngine* engine);
+	void Initialize(DirectXCommon* directXCommon, YTEngine* engine);
+	
 	void Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material, const Matrix4x4& wvpData);
+	
 	void Finalize();
 
 private:
@@ -18,10 +20,11 @@ private:
 	void TransformMatrix();
 
 private:
-	ID3D12Resource* materialResource_;
-
 	YTEngine* engine_;
-	DirectXCommon* direct_;
+
+	ID3D12Resource* materialResource_;
+	
+	DirectXCommon* directXCommon_;
 
 	VertexData* vertexData_;
 	ID3D12Resource* vertexResource_;

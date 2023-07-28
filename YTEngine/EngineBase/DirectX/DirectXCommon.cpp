@@ -305,7 +305,7 @@ ID3D12Resource* DirectXCommon::CreateBufferResource(ID3D12Device* device, size_t
 	return resource;
 }
 
-ID3D12Resource* DirectXCommon::CreateDepthStencilTextureResource(ID3D12Device* device, int32_t width, int32_t height) {
+ID3D12Resource* DirectXCommon::CreateDepthStencilResource(ID3D12Device* device, int32_t width, int32_t height) {
 	D3D12_RESOURCE_DESC resourceDesc{};
 	resourceDesc.Width = width;
 	resourceDesc.Height = height;
@@ -339,7 +339,7 @@ ID3D12Resource* DirectXCommon::CreateDepthStencilTextureResource(ID3D12Device* d
 }
 
 void DirectXCommon::CreateDepthStencil() {
-	depthStencilResource_ = CreateDepthStencilTextureResource(device_, WinApp::kClientWidth, WinApp::kClientHeight);
+	depthStencilResource_ = CreateDepthStencilResource(device_, WinApp::kClientWidth, WinApp::kClientHeight);
 	dsvDescriptorHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);
 
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};

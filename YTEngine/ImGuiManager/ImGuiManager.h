@@ -4,12 +4,16 @@
 
 class ImGuiManager {
 public:
-	void Initialize(WinApp* winApp, DirectXCommon* dxCommon);
+	void Initialize(WinApp* winApp, DirectXCommon* directXCommon);
+	
 	void Finalize();
+	
 	void Begin();
+	
 	void End();
+	
 	void Draw();
 
 private:
-	DirectXCommon* dxCommon_;
+	DirectXCommon* directXCommon_;
 };

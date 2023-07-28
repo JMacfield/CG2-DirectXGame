@@ -1,7 +1,7 @@
 #include "ImGuiManager.h"
 
-void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon) {
-	dxCommon_ = dxCommon;
+void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* directXCommon) {
+	directXCommon_ = directXCommon;
 
 	IMGUI_CHECKVERSION();
 
@@ -9,12 +9,12 @@ void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon) {
 	ImGui::StyleColorsDark();
 
 	ImGui_ImplWin32_Init(winApp->GetHwnd());
-	ImGui_ImplDX12_Init(dxCommon_->GetDevice(),
-		dxCommon_->GetBackBufferCount(),
-		dxCommon_->GetRtvDesc().Format,
-		dxCommon_->GetSrvHeap(),
-		dxCommon_->GetSrvHeap()->GetCPUDescriptorHandleForHeapStart(),
-		dxCommon_->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart());
+	ImGui_ImplDX12_Init(directXCommon_->GetDevice(),
+		directXCommon_->GetBackBufferCount(),
+		directXCommon_->GetRtvDesc().Format,
+		directXCommon_->GetSrvHeap(),
+		directXCommon_->GetSrvHeap()->GetCPUDescriptorHandleForHeapStart(),
+		directXCommon_->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart());
 }
 
 void ImGuiManager::Finalize() {
@@ -28,8 +28,8 @@ void ImGuiManager::Begin() {
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	ID3D12DescriptorHeap* descriptorHeaps[] = { dxCommon_->GetSrvHeap() };
-	dxCommon_->GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps);
+	ID3D12DescriptorHeap* descriptorHeaps[] = { directXCommon_->GetSrvHeap() };
+	directXCommon_->GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps);
 }
 
 void ImGuiManager::End() {
@@ -37,5 +37,5 @@ void ImGuiManager::End() {
 }
 
 void ImGuiManager::Draw() {
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), dxCommon_->GetCommandList());
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), directXCommon_->GetCommandList());
 }
