@@ -31,6 +31,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	gameScene->Finalize();
 	engine->Finalize();
+
 	CoUninitialize();
 
 	return 0;

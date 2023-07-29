@@ -208,16 +208,10 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="YTEngine\Shader\Object3d.hlsli">
-      <Filter>リソース ファイル\Shader</Filter>
-    </None>
+    <None Include="Object3d.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="YTEngine\Shader\Object3d.PS.hlsl">
-      <Filter>リソース ファイル\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="YTEngine\Shader\Object3d.VS.hlsl">
-      <Filter>リソース ファイル\Shader</Filter>
-    </FxCompile>
+    <FxCompile Include="Object3d.PS.hlsl" />
+    <FxCompile Include="Object3d.VS.hlsl" />
   </ItemGroup>
 </Project>

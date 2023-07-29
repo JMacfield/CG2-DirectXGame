@@ -6,6 +6,8 @@
 #include "Triangle.h"
 #include "ImGuiManager.h"
 
+#include "Externals/DirectXTex/d3dx12.h"
+
 #pragma comment(lib,"dxcompiler.lib")
 
 class YTEngine {
@@ -93,7 +95,7 @@ private:
 	void SettingDepth();
 
 	ID3D12Resource* CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata);
-	void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
+	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
 
 	DirectX::ScratchImage SendTexture(const std::string& filePath);
 };

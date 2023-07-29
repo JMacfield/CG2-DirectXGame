@@ -25,7 +25,7 @@ public:
 
 	void Finalize();
 	
-	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 public:
 	void CreateGameWindow(const wchar_t* title, int32_t clientWidth, int32_t clientHeight);

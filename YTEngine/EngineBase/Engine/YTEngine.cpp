@@ -149,12 +149,12 @@ void YTEngine::SettingRasterizerState() {
 	rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
 	rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
 
-	vertexShaderBlob_ = CompileShader(L"./shader/Object3d.VS.hlsl",
+	vertexShaderBlob_ = CompileShader(L"Object3d.VS.hlsl",
 		L"vs_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
 	assert(vertexShaderBlob_ != nullptr);
 
 
-	pixelShaderBlob_ = CompileShader(L"./shader/Object3d.PS.hlsl",
+	pixelShaderBlob_ = CompileShader(L"Object3d.PS.hlsl",
 		L"ps_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
 	assert(pixelShaderBlob_ != nullptr);
 }
@@ -289,9 +289,9 @@ void YTEngine::Draw() {
 	ImGui::ShowDemoWindow();
 }
 
-ID3D12Resource* YTEngine::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata)
-{
+ID3D12Resource* YTEngine::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata) {
 	D3D12_RESOURCE_DESC resourceDesc{};
+
 	resourceDesc.Width = UINT(metadata.width);
 	resourceDesc.Height = UINT(metadata.height);
 	resourceDesc.MipLevels = UINT16(metadata.mipLevels);
@@ -302,8 +302,8 @@ ID3D12Resource* YTEngine::CreateTextureResource(ID3D12Device* device, const Dire
 	
 	D3D12_HEAP_PROPERTIES heapProperties{};
 	heapProperties.Type = D3D12_HEAP_TYPE_CUSTOM;
-	heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	//heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	//heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 	
 	ID3D12Resource* resource = nullptr;
 	HRESULT hr = device->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&resource));
@@ -311,19 +311,28 @@ ID3D12Resource* YTEngine::CreateTextureResource(ID3D12Device* device, const Dire
 	return resource;
 }
 
-void YTEngine::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages) {
-	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
-	
-	for (size_t miplevel = 0; miplevel < metadata.mipLevels; ++miplevel) {
-		const DirectX::Image* img = mipImages.GetImage(miplevel, 0, 0);
-		HRESULT hr = texture->WriteToSubresource(UINT(miplevel), nullptr, img->pixels, UINT(img->rowPitch), UINT(img->slicePitch));
+ID3D12Resource* YTEngine::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages) {
+	std::vector<D3D12_SUBRESOURCE_DATA>subResource
+		;
+	DirectX::PrepareUpload(directXCommon_->GetDevice(), mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subResource);
+	uint64_t  intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subResource.size()));
+	intermediateResource_ = directXCommon_->CreateBufferResource(directXCommon_->GetDevice(), intermediateSize);
+	UpdateSubresources(directXCommon_->GetCommandList(), texture, intermediateResource_, 0, 0, UINT(subResource.size()), subResource.data());
 
-		assert(SUCCEEDED(hr));
-	}
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = texture;
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
+
+	directXCommon_->GetCommandList()->ResourceBarrier(1, &barrier);
+
+	return intermediateResource_;
 }
 
-DirectX::ScratchImage YTEngine::SendTexture(const std::string& filePath)
-{
+DirectX::ScratchImage YTEngine::SendTexture(const std::string& filePath) {
 	DirectX::ScratchImage image{};
 	std::wstring filePathW = ConvertString(filePath);
 	HRESULT hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
