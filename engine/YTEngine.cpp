@@ -175,17 +175,17 @@ void YTEngine::SettingScissor() {
 }
 
 void YTEngine::variableInitialize() {
-	data1[0] = { -0.1f,0.1f,0.0f,1.0f };
-	data2[0] = { 0.0f,0.3f,0.0f,1.0f };
-	data3[0] = { 0.1f,0.1f,0.0f,1.0f };
+	//data1[0] = { -0.1f,0.1f,0.0f,1.0f };
+	//data2[0] = { 0.0f,0.3f,0.0f,1.0f };
+	//data3[0] = { 0.1f,0.1f,0.0f,1.0f };
 
 	data1[1] = { -0.1f,-0.3f,0.0f,1.0f };
 	data2[1] = { 0.0f,-0.1f,0.0f,1.0f };
 	data3[1] = { 0.1f,-0.3f,0.0f,1.0f };
 	
-	data1[2] = { -0.1f,-0.7f,0.0f,1.0f };
-	data2[2] = { 0.0f,-0.5f,0.0f,1.0f };
-	data3[2] = { 0.1f,-0.7f,0.0f,1.0f };
+	//data1[2] = { -0.1f,-0.7f,0.0f,1.0f };
+	//data2[2] = { 0.0f,-0.5f,0.0f,1.0f };
+	//data3[2] = { 0.1f,-0.7f,0.0f,1.0f };
 	
 	material[0] = { 1.0f,0.1f,1.0f,1.0f };
 	material[1] = { 1.0f,0.3f,0.4f,1.2f };
@@ -265,14 +265,17 @@ void YTEngine::Update() {
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(win_->kClientWidth) / float(win_->kClientHeight), 0.1f, 100.0f);
 	Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix_, Multiply(viewMatrix, projectionMatrix));
 
-	material[0].x += 0.01f;
-	vertexTransform_.rotate.y += 0.03f;
+	//material[0].x += 0.01f;
+	//vertexTransform_.rotate.y += 0.03f;
 	
 	worldMatrix_ = worldViewProjectionMatrix;
 
 	ImGui::Begin("Window");
 	ImGui::DragFloat3("CameraTranslate", &cameraTransform_.translate.x, 0.01f);
-
+	ImGui::DragFloat3("Triangle Scale", &vertexTransform_.scale.x, 0.01f);
+	ImGui::DragFloat3("Triangle Rotate", &vertexTransform_.rotate.x, 0.01f);
+	ImGui::DragFloat3("Triangle Translate", &cameraTransform_.translate.x, 0.01f);
+	ImGui::DragFloat3("Color", &material[1].x, 0.01f);
 	ImGui::End();
 }
 
