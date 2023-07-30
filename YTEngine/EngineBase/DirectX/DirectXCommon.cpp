@@ -138,8 +138,6 @@ void DirectXCommon::CreateSwapChain() {
 	
 	hr = swapChain_->GetBuffer(1, IID_PPV_ARGS(&backBuffers_[1]));
 	assert(SUCCEEDED(hr));
-
-	//srvDescriptorHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
 }
 
 void DirectXCommon::CreateFinalRenderTargets() {

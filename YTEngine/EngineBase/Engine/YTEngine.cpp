@@ -219,7 +219,7 @@ void YTEngine::Initialize(WinApp* winApp, int32_t width, int32_t height) {
 	winApp_ = winApp;
 	winApp_ = new WinApp();
 
-	directXCommon_ = new DirectXCommon;
+	directXCommon_ = new DirectXCommon();
 	directXCommon_->Initialize(winApp_, winApp_->kClientWidth, winApp_->kClientHeight);
 
 	imguiManager_ = new ImGuiManager();
@@ -245,7 +245,6 @@ void YTEngine::Initialize(WinApp* winApp, int32_t width, int32_t height) {
 void YTEngine::BeginFrame() {
 	imguiManager_->Begin();
 
-	directXCommon_->PreDraw();
 	directXCommon_->GetCommandList()->RSSetViewports(1, &viewPort_);
 	directXCommon_->GetCommandList()->RSSetScissorRects(1, &scissorRect_);
 	
@@ -304,8 +303,6 @@ ID3D12Resource* YTEngine::CreateTextureResource(ID3D12Device* device, const Dire
 	
 	D3D12_HEAP_PROPERTIES heapProperties{};
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
-	//heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	//heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 	
 	ID3D12Resource* resource = nullptr;
 	HRESULT hr = device->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_COPY_DEST, nullptr, IID_PPV_ARGS(&resource));

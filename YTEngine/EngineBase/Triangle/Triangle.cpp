@@ -49,9 +49,9 @@ void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c, const 
 }
 
 void Triangle::Finalize() {
-	wvpResource_->Release();
-	materialResource_->Release();
 	vertexResource_->Release();
+	materialResource_->Release();
+	wvpResource_->Release();
 }
 
 void Triangle::SettingVertex() {
