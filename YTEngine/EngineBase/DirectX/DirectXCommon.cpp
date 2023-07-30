@@ -132,9 +132,10 @@ void DirectXCommon::CreateSwapChain() {
 
 	backBuffers_[0] = { nullptr };
 	backBuffers_[1] = { nullptr };
+	
 	hr = swapChain_->GetBuffer(0, IID_PPV_ARGS(&backBuffers_[0]));
-
 	assert(SUCCEEDED(hr));
+	
 	hr = swapChain_->GetBuffer(1, IID_PPV_ARGS(&backBuffers_[1]));
 	assert(SUCCEEDED(hr));
 
