@@ -108,9 +108,6 @@
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="YTEngine\EngineBase\DirectX\DirectXCommon.cpp">
-      <Filter>ソース ファイル\EngineBase\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="YTEngine\EngineBase\Engine\YTEngine.cpp">
       <Filter>ソース ファイル\EngineBase\YTEngine</Filter>
@@ -135,6 +132,9 @@
     </ClCompile>
     <ClCompile Include="YTEngine\EngineBase\Triangle\Triangle.cpp">
       <Filter>ソース ファイル\EngineBase\Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\EngineBase\DirectX\DirectXCommon.cpp">
+      <Filter>ソース ファイル\EngineBase\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +161,6 @@
     </ClInclude>
     <ClInclude Include="externals\imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="YTEngine\EngineBase\DirectX\DirectXCommon.h">
-      <Filter>ヘッダー ファイル\EngineBase\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="YTEngine\EngineBase\Engine\YTEngine.h">
       <Filter>ヘッダー ファイル\EngineBase\YTEngine</Filter>
@@ -201,6 +198,9 @@
     <ClInclude Include="YTEngine\Utilities\ConvertString\ConvertString.h">
       <Filter>ヘッダー ファイル\Utilities\ConvertString</Filter>
     </ClInclude>
+    <ClInclude Include="YTEngine\EngineBase\DirectX\DirectXCommon.h">
+      <Filter>ヘッダー ファイル\EngineBase\DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -208,10 +208,16 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Object3d.hlsli" />
+    <None Include="YTEngine\Shader\Object3d.hlsli">
+      <Filter>リソース ファイル\Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Object3d.PS.hlsl" />
-    <FxCompile Include="Object3d.VS.hlsl" />
+    <FxCompile Include="YTEngine\Shader\Object3d.PS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="YTEngine\Shader\Object3d.VS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

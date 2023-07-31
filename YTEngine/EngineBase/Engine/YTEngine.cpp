@@ -120,6 +120,7 @@ void YTEngine::CreateRootSignature() {
 	}
 	
 	rootSignature_ = nullptr;
+
 	hr = directXCommon_->GetDevice()->CreateRootSignature(0, signatureBlob_->GetBufferPointer(),
 		signatureBlob_->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
 	assert(SUCCEEDED(hr));
@@ -149,12 +150,12 @@ void YTEngine::SettingRasterizerState() {
 	rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
 	rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
 
-	vertexShaderBlob_ = CompileShader(L"Object3d.VS.hlsl",
+	vertexShaderBlob_ = CompileShader(L"YTEngine/Shader/Object3d.VS.hlsl",
 		L"vs_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
 	assert(vertexShaderBlob_ != nullptr);
 
 
-	pixelShaderBlob_ = CompileShader(L"Object3d.PS.hlsl",
+	pixelShaderBlob_ = CompileShader(L"YTEngine/Shader/Object3d.PS.hlsl",
 		L"ps_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
 	assert(pixelShaderBlob_ != nullptr);
 }

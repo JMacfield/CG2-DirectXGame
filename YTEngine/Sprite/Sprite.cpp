@@ -1,7 +1,7 @@
 #include "Sprite.h"
 
 void Sprite::Initialize(DirectXCommon* directXCommon) {
-	directXCommon = directXCommon_;
+	directXCommon_ = directXCommon;
 	CreateVertexData();
 	CreateTransform();
 }

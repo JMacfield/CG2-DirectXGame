@@ -9,9 +9,9 @@ void GameScene::Initialize(YTEngine* engine, DirectXCommon* directXCommon) {
 	data3_[0] = { 0.5f,-0.5f,-0.5f,1.0f };
 	material_[0] = { 1.0f,1.0f,1.0f,1.0f };
 
-	data1_[1] = { -0.5f,-0.5f,0.5f,1.0f };
-	data2_[1] = { 0.0f,0.0f,0.0f,1.0f };
-	data3_[1] = { 0.5f,-0.5f,-0.5f,1.0f };
+	data1_[1] = { -0.5f,-0.5f,0.0f,1.0f };
+	data2_[1] = { 0.0f,0.5f,0.0f,1.0f };
+	data3_[1] = { 0.5f,-0.5f,0.0f,1.0f };
 	material_[1] = { 1.0f,1.0f,1.0f,1.0f };
 
 	transform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
@@ -37,7 +37,7 @@ void GameScene::Initialize(YTEngine* engine, DirectXCommon* directXCommon) {
 }
 
 void GameScene::Update() {
-	transform_.rotate.y += 0.01f;
+	//transform_.rotate.y += 0.01f;
 	worldMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
 
 	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
@@ -48,8 +48,12 @@ void GameScene::Update() {
 	worldMatrix_ = worldViewProjectionMatrix;
 	
 	ImGui::Begin("Window");
-	ImGui::DragFloat3("CameraTranslate", &cameraTransform_.translate.x, 0.01f);
-	ImGui::DragFloat3("SpriteTranslate", &spriteTransform_[1].translate.x, 0.1f);
+	ImGui::DragFloat3("Triangle Scale", &transform_.scale.x, 0.01f);
+	ImGui::DragFloat3("Triangle Rotate", &transform_.rotate.x, 0.01f);
+	ImGui::DragFloat3("Triangle Translate", &transform_.translate.x, 0.01f);
+	ImGui::DragFloat3("Sprite Scale", &spriteTransform_[0].scale.x, 0.01f);
+	ImGui::DragFloat3("Sprite Rotate", &spriteTransform_[0].rotate.x, 0.01f);
+	ImGui::DragFloat3("Sprite Translate", &spriteTransform_[0].translate.x, 1.0f);
 	ImGui::End();
 }
 
