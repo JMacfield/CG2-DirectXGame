@@ -85,6 +85,12 @@
     <Filter Include="ヘッダー ファイル\Utilities\ConvertString">
       <UniqueIdentifier>{4c26cafe-0a91-4623-8160-63a78a9828d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\EngineBase\Sphere">
+      <UniqueIdentifier>{8292babd-c2cb-489f-b856-b1e0475176ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EngineBase\Sphere">
+      <UniqueIdentifier>{cbb50e96-7ac2-49fa-b01a-03829b806ee3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -135,6 +141,9 @@
     </ClCompile>
     <ClCompile Include="YTEngine\EngineBase\DirectX\DirectXCommon.cpp">
       <Filter>ソース ファイル\EngineBase\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\EngineBase\Sphere\Sphere.cpp">
+      <Filter>ソース ファイル\EngineBase\Sphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="YTEngine\EngineBase\DirectX\DirectXCommon.h">
       <Filter>ヘッダー ファイル\EngineBase\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\EngineBase\Sphere\Sphere.h">
+      <Filter>ヘッダー ファイル\EngineBase\Sphere</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
