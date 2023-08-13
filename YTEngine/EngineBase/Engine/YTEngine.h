@@ -30,13 +30,12 @@ public:
 
 	DirectXCommon* GetDirectXCommon() { return directXCommon_; }
 
-	D3D12_CPU_DESCRIPTOR_HANDLE GetTextureSrvHandleCPU() { return textureSrvHandleCPU_; }
-	D3D12_GPU_DESCRIPTOR_HANDLE GetTextureSrvHandleGPU() { return textureSrvHandleGPU_; }
+	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_[2];
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[2];
 
+	D3D12_CPU_DESCRIPTOR_HANDLE GetTextureSrvHandleCPU(ID3D12DescriptorHeap* descriptorheap, uint32_t descriptorSize, uint32_t index);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetTextureSrvHandleGPU(ID3D12DescriptorHeap* descriptorheap, uint32_t descriptorSize, uint32_t index);
 private:
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
-
 	static WinApp* winApp_;
 	static DirectXCommon* directXCommon_;
 
