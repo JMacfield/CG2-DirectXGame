@@ -24,6 +24,6 @@ void Sphere::TransformMatrix() {
 	*wvpData_ = MakeIdentity4x4();
 }
 
-void Sphere::Draw() {
+void Sphere::Draw(const Vector4& material, const Matrix4x4& wvpData, uint32_t texIndex) {
 
 }
