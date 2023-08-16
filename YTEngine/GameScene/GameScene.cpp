@@ -66,7 +66,7 @@ void GameScene::Update() {
 	ImGui::DragFloat3("SphereScale", &sphereTransform_.scale.x, 0.01f);
 	ImGui::DragFloat3("SphereRotate", &sphereTransform_.rotate.x, 0.01f);
 	ImGui::DragFloat3("SphereTranslate", &sphereTransform_.translate.x, 0.01f);
-	//ImGui::InputInt("Resource Number", &monsterBallResourceNumber_);
+	ImGui::InputInt("Resource Number", &monsterBallResourceNumber_);
 	ImGui::End();
 }
 
