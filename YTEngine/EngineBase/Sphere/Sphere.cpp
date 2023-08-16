@@ -6,22 +6,12 @@ void Sphere::Initialize(DirectXCommon* directXCommon, YTEngine* engine) {
 	directXCommon_ = directXCommon;
 	engine_ = engine;
 
-	SettingVertex();
+	kSubDivision = 16;
+	vertexCount = kSubDivision * kSubDivision * 6;
+
+	CreateVertexData();
 	SetColor();
 	TransformMatrix();
-}
-
-void Sphere::SetColor() {
-	materialResource_ = DirectXCommon::CreateBufferResource(
-		directXCommon_->GetDevice(), sizeof(VertexData));
-
-	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
-}
-
-void Sphere::TransformMatrix() {
-	wvpResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(Matrix4x4));
-	wvpResource_->Map(0, NULL, reinterpret_cast<void**>(&wvpData_));
-	*wvpData_ = MakeIdentity4x4();
 }
 
 void Sphere::Draw(const Vector4& material, const Matrix4x4& wvpData, uint32_t texIndex) {
@@ -33,7 +23,7 @@ void Sphere::Draw(const Vector4& material, const Matrix4x4& wvpData, uint32_t te
 	for (uint32_t latIndex = 0; latIndex < kSubDivision; ++latIndex) {
 		float lat = -pi / 2.0f + kLatEvery * latIndex;
 		for (uint32_t lonIndex = 0; lonIndex < kSubDivision; ++lonIndex) {
-			uint32_t start = (latIndex * kSubDivision + lonIndex);
+			uint32_t start = (latIndex * kSubDivision + lonIndex) * 6;
 
 			float lon = lonIndex * kLonEvery;
 
@@ -68,9 +58,37 @@ void Sphere::Draw(const Vector4& material, const Matrix4x4& wvpData, uint32_t te
 			directXCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 			directXCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
-			directXCommon_->GetCommandList()->SetGraphicsRootShaderResourceView(1, wvpResource_->GetGPUVirtualAddress());
-			directXCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2,engine_->textureSrvHandleGPU_[texIndex])
+			directXCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
+			directXCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[texIndex]);
+			directXCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
 
 		}
 	}
+}
+
+void Sphere::Finalize() {
+	vertexResource_->Release();
+	materialResource_->Release();
+	wvpResource_->Release();
+}
+
+void Sphere::CreateVertexData() {
+	vertexResource_ = directXCommon_->CreateBufferResource(directXCommon_->GetDevice(), sizeof(VertexData) * vertexCount);
+
+	vertexBufferView.BufferLocation = vertexResource_->GetGPUVirtualAddress();
+	vertexBufferView.SizeInBytes = sizeof(VertexData) * vertexCount;
+	vertexBufferView.StrideInBytes = sizeof(VertexData);
+
+	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
+}
+
+void Sphere::TransformMatrix() {
+	wvpResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(Matrix4x4));
+	wvpResource_->Map(0, NULL, reinterpret_cast<void**>(&wvpData_));
+	*wvpData_ = MakeIdentity4x4();
+}
+
+void Sphere::SetColor() {
+	materialResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(VertexData));
+	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 }

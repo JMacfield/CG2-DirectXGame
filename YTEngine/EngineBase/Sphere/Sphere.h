@@ -2,8 +2,7 @@
 
 #include "DirectXCommon.h"
 #include "MatrixCalculate.h"
-
-class YTEngine;
+#include "YTEngine.h"
 
 class Sphere {
 public:
@@ -14,7 +13,7 @@ public:
 	void Finalize();
 
 private:
-	void SettingVertex();
+	void CreateVertexData();
 	void SetColor();
 	void TransformMatrix();
 
@@ -23,7 +22,7 @@ private:
 	DirectXCommon* directXCommon_;
 	
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	ID3D12Resource* vertexResource;
+	ID3D12Resource* vertexResource_;
 	VertexData* vertexData_;
 	
 	ID3D12Resource* wvpResource_;
