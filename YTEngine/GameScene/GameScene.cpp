@@ -15,7 +15,7 @@ void GameScene::Initialize(YTEngine* engine, DirectXCommon* directXCommon) {
 	material_[1] = { 1.0f,1.0f,1.0f,1.0f };
 
 	transform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
+	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-10.0f} };
 
 	spriteDataLeftTop_[0] = { 0.0f,0.0f,0.0f,1.0f };
 	spriteDataRightDown_[0] = { 320.0f,180.0f,0.0f,1.0f };
@@ -37,6 +37,8 @@ void GameScene::Initialize(YTEngine* engine, DirectXCommon* directXCommon) {
 	monsterBallResourceNumber_ = 1;
 	engine_->LoadTexture("Resource/monsterBall.png", monsterBallResourceNumber_);
 
+	directionalLight_ = { {1.0f,1.0f,1.0f,1.0f},{0.0f,-1.0f,0.0f},1.0f };
+
 	for (int i = 0; i < 2; i++) {
 		triangle_[i] = new Triangle();
 		triangle_[i]->Initialize(directXCommon_, engine_);
@@ -48,18 +50,7 @@ void GameScene::Initialize(YTEngine* engine, DirectXCommon* directXCommon) {
 
 void GameScene::Update() {
 	transform_.rotate.y += 0.01f;
-	worldMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
-
-	Matrix4x4 sphereAffine = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
-	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
-	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
-	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(directXCommon_->GetWin()->kClientWidth) / float(directXCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
-	Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix_, Multiply(viewMatrix, projectionMatrix));
-
-	sphereMatrix_ = Multiply(sphereAffine, Multiply(viewMatrix, projectionMatrix));
-	worldMatrix_ = worldViewProjectionMatrix;
-
-	sphereTransform_.rotate.y += 0.01f;
+	directionalLight_.direction = Normalize(directionalLight_.direction);
 
 	ImGui::Begin("Window");
 	ImGui::DragFloat3("CameraTranslate", &cameraTransform_.translate.x, 0.01f);
@@ -67,20 +58,22 @@ void GameScene::Update() {
 	ImGui::DragFloat3("SphereRotate", &sphereTransform_.rotate.x, 0.01f);
 	ImGui::DragFloat3("SphereTranslate", &sphereTransform_.translate.x, 0.01f);
 	ImGui::InputInt("Resource Number", &monsterBallResourceNumber_);
+	ImGui::DragFloat("Intensity", &directionalLight_.intensity, 1.0f);
+	ImGui::DragFloat3("lightDirection", &directionalLight_.direction.x, 0.1f);
 	ImGui::End();
 }
 
 void GameScene::Draw3D() {
-	/*for (int i = 0; i < 2; i++) {
-		triangle_[i]->Draw(data1_[i], data2_[i], data3_[i], material_[i], worldMatrix_);
-	}*/
+	for (int i = 0; i < 2; i++) {
+		triangle_[i]->Draw(data1_[i], data2_[i], data3_[i], material_[i], transform_, cameraTransform_, directionalLight_);
+	}
 
-	sphere_->Draw(sphereMaterial_, sphereMatrix_, monsterBallResourceNumber_);
+	sphere_->Draw(sphereMaterial_, sphereTransform_, monsterBallResourceNumber_,cameraTransform_,directionalLight_);
 }
 
 void GameScene::Draw2D() {
 	for (int i = 0; i < 1; i++) {
-		sprite_[i]->Draw(spriteDataLeftTop_[i], spriteDataRightDown_[i], spriteTransform_[i],spriteMaterial_[0], uvResourceNumber_);
+		sprite_[i]->Draw(spriteDataLeftTop_[i], spriteDataRightDown_[i], spriteTransform_[i],spriteMaterial_[0], uvResourceNumber_,directionalLight_);
 	}
 }
 

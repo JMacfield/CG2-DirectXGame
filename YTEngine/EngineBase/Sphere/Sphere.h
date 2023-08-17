@@ -8,14 +8,9 @@ class Sphere {
 public:
 	void Initialize(DirectXCommon* directXCommon, YTEngine* engine);
 
-	void Draw(const Vector4& material, const Matrix4x4& wvpData,uint32_t texIndex);
+	void Draw(const Vector4& material, const Transform& wvpdata, uint32_t texIndex, const Transform& cameratransform, const DirectionalLight& light);
 
 	void Finalize();
-
-private:
-	void CreateVertexData();
-	void SetColor();
-	void TransformMatrix();
 
 private:
 	YTEngine* engine_;
@@ -26,12 +21,21 @@ private:
 	VertexData* vertexData_;
 	
 	ID3D12Resource* wvpResource_;
-	Matrix4x4* wvpData_;
+	TransformationMatrix* wvpData_;
 	ID3D12Resource* materialResource_;
-	Vector4* materialData_;
+	Material* materialData_;
 	
 	const float pi = 3.1415f;
 	
 	uint32_t kSubDivision;
 	uint32_t vertexCount;
+
+	DirectionalLight* directionalLight_;
+	ID3D12Resource* directionalLightResource_;
+
+private:
+	void CreateVertexData();
+	void SetColor();
+	void TransformMatrix();
+	void CreateDirectionalLight();
 };
