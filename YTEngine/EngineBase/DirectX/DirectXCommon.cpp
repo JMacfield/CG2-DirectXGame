@@ -61,7 +61,7 @@ void DirectXCommon::InitializeDXGIDevice() {
 	const char* featureLevelString[] = { "12.2","12.1","12.0" };
 
 	for (size_t i = 0; i < _countof(featureLevels); ++i) {
-		hr_ = D3D12CreateDevice(useAdapter_, featureLevels[i], IID_PPV_ARGS(&device_));
+		hr_ = D3D12CreateDevice(useAdapter_.Get(), featureLevels[i], IID_PPV_ARGS(&device_));
 		if (SUCCEEDED(hr_)) {
 			Log(std::format("FeatureLevel : {}\n", featureLevelString[i]));
 			break;
@@ -70,29 +70,6 @@ void DirectXCommon::InitializeDXGIDevice() {
 
 	assert(device_ != nullptr);
 	Log("Complete Create D3D12 Device!!\n");
-
-#ifdef _DEBUG
-	ID3D12InfoQueue* infoQueue = nullptr;
-	if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
-
-		D3D12_MESSAGE_ID denyIds[] = {
-			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
-		};
-
-		D3D12_MESSAGE_SEVERITY severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
-		D3D12_INFO_QUEUE_FILTER filter{};
-		filter.DenyList.NumIDs = _countof(denyIds);
-		filter.DenyList.pIDList = denyIds;
-		filter.DenyList.NumSeverities = _countof(severities);
-		filter.DenyList.pSeverityList = severities;
-
-		infoQueue->PushStorageFilter(&filter);
-		infoQueue->Release();
-	}
-#endif // _DEBUG
 }
 
 void DirectXCommon::InitializeCommand() {
@@ -109,7 +86,7 @@ void DirectXCommon::InitializeCommand() {
 	assert(SUCCEEDED(hr_));
 
 	commandList_ = nullptr;
-	hr_ = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_, nullptr,
+	hr_ = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_.Get(), nullptr,
 		IID_PPV_ARGS(&commandList_));
 	assert(SUCCEEDED(hr_));
 }
@@ -125,10 +102,10 @@ void DirectXCommon::CreateSwapChain() {
 	swapChainDesc_.BufferCount = 2;
 	swapChainDesc_.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
-	HRESULT	hr = dxgiFactory_->CreateSwapChainForHwnd(commandQueue_, winApp_->GetHwnd(), &swapChainDesc_, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(&swapChain_));
+	HRESULT	hr = dxgiFactory_->CreateSwapChainForHwnd(commandQueue_.Get(), winApp_->GetHwnd(), &swapChainDesc_, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain_.GetAddressOf()));
 	assert(SUCCEEDED(hr));
 
-	rtvDescriptorHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 2, false);
+	rtvDescriptorHeap_ = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 2, false);
 
 	backBuffers_[0] = { nullptr };
 	backBuffers_[1] = { nullptr };
@@ -147,11 +124,11 @@ void DirectXCommon::CreateFinalRenderTargets() {
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvStartHandle = rtvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 
 	rtvHandles_[0] = rtvStartHandle;
-	device_->CreateRenderTargetView(backBuffers_[0], &rtvDesc_, rtvHandles_[0]);
+	device_->CreateRenderTargetView(backBuffers_[0].Get(), &rtvDesc_, rtvHandles_[0]);
 
 	rtvHandles_[1].ptr = rtvHandles_[0].ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
-	device_->CreateRenderTargetView(backBuffers_[1], &rtvDesc_, rtvHandles_[1]);
+	device_->CreateRenderTargetView(backBuffers_[1].Get(), &rtvDesc_, rtvHandles_[1]);
 }
 
 void DirectXCommon::CreateFence() {
@@ -166,7 +143,7 @@ void DirectXCommon::CreateFence() {
 
 void DirectXCommon::CreateSrvHeap() {
 	srvDescriptorHeap_ =
-		CreateDescriptorHeap(device_,
+		CreateDescriptorHeap(device_.Get(),
 			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
 			128, true);
 }
@@ -176,7 +153,7 @@ void DirectXCommon::PreDraw() {
 
 	barrier_.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	barrier_.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier_.Transition.pResource = backBuffers_[backBufferIndex];
+	barrier_.Transition.pResource = backBuffers_[backBufferIndex].Get();
 	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 	barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	commandList_->ResourceBarrier(1, &barrier_);
@@ -203,12 +180,12 @@ void DirectXCommon::PostDraw() {
 	hr_ = commandList_->Close();
 	assert(SUCCEEDED(hr_));
 
-	ID3D12CommandList* commandLists[] = { commandList_ };
+	ID3D12CommandList* commandLists[] = { commandList_.Get()};
 	commandQueue_->ExecuteCommandLists(1, commandLists);
 	swapChain_->Present(1, 0);
 
 	fenceVal_++;
-	commandQueue_->Signal(fence_, fenceVal_);
+	commandQueue_->Signal(fence_.Get(), fenceVal_);
 
 	if (fence_->GetCompletedValue() < fenceVal_) {
 		fence_->SetEventOnCompletion(fenceVal_, fenceEvent_);
@@ -218,7 +195,7 @@ void DirectXCommon::PostDraw() {
 	hr_ = commandAllocator_->Reset();
 	assert(SUCCEEDED(hr_));
 
-	hr_ = commandList_->Reset(commandAllocator_, nullptr);
+	hr_ = commandList_->Reset(commandAllocator_.Get(), nullptr);
 	assert(SUCCEEDED(hr_));
 }
 
@@ -233,39 +210,16 @@ void DirectXCommon::ClearRenderTarget() {
 
 void DirectXCommon::Finalize() {
 	CloseHandle(fenceEvent_);
-	fence_->Release();
-
-	depthStencilResource_->Release();
-	dsvDescriptorHeap_->Release();
-
-	srvDescriptorHeap_->Release();
-	rtvDescriptorHeap_->Release();
-	backBuffers_[0]->Release();
-	backBuffers_[1]->Release();
-	swapChain_->Release();
-	commandList_->Release();
-	commandAllocator_->Release();
-	commandQueue_->Release();
-	device_->Release();
-	useAdapter_->Release();
-	dxgiFactory_->Release();
 
 #ifdef _DEBUG
 	winApp_->GetDebugController()->Release();
 #endif // _DEBUG
 
 	CloseWindow(winApp_->GetHwnd());
-
-	IDXGIDebug1* debug;
-	if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&debug)))) {
-		debug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
-		debug->ReportLiveObjects(DXGI_DEBUG_APP, DXGI_DEBUG_RLO_ALL);
-		debug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
-		debug->Release();
-	}
+	delete winApp_;
 }
 
-ID3D12DescriptorHeap* DirectXCommon::CreateDescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescripters, bool shaderVisible)
+Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>DirectXCommon::CreateDescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescripters, bool shaderVisible)
 {
 	ID3D12DescriptorHeap* descriptorHeap = nullptr;
 	D3D12_DESCRIPTOR_HEAP_DESC descriptionHeapDesc{};
@@ -278,7 +232,7 @@ ID3D12DescriptorHeap* DirectXCommon::CreateDescriptorHeap(ID3D12Device* device, 
 	return descriptorHeap;
 }
 
-ID3D12Resource* DirectXCommon::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
+Microsoft::WRL::ComPtr<ID3D12Resource>DirectXCommon::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
 
@@ -302,7 +256,7 @@ ID3D12Resource* DirectXCommon::CreateBufferResource(ID3D12Device* device, size_t
 	return resource;
 }
 
-ID3D12Resource* DirectXCommon::CreateDepthStencilResource(ID3D12Device* device, int32_t width, int32_t height) {
+Microsoft::WRL::ComPtr<ID3D12Resource>DirectXCommon::CreateDepthStencilResource(ID3D12Device* device, int32_t width, int32_t height) {
 	D3D12_RESOURCE_DESC resourceDesc{};
 	resourceDesc.Width = width;
 	resourceDesc.Height = height;
@@ -336,12 +290,12 @@ ID3D12Resource* DirectXCommon::CreateDepthStencilResource(ID3D12Device* device, 
 }
 
 void DirectXCommon::CreateDepthStencil() {
-	depthStencilResource_ = CreateDepthStencilResource(device_, WinApp::kClientWidth, WinApp::kClientHeight);
-	dsvDescriptorHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);
+	depthStencilResource_ = CreateDepthStencilResource(device_.Get(), WinApp::kClientWidth, WinApp::kClientHeight);
+	dsvDescriptorHeap_ = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);
 
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
 	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
-	device_->CreateDepthStencilView(depthStencilResource_, &dsvDesc, dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
+	device_->CreateDepthStencilView(depthStencilResource_.Get(), &dsvDesc, dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
 }

@@ -13,13 +13,13 @@ void Triangle::Initialize(DirectXCommon* directXCommon, YTEngine* engine) {
 }
 
 void Triangle::SetColor() {
-	materialResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(Material));
+	materialResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(Material));
 
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 }
 
 void Triangle::TransformMatrix() {
-	wvpResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(TransformationMatrix));
+	wvpResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(TransformationMatrix));
 	wvpResource_->Map(0, NULL, reinterpret_cast<void**>(&wvpData_));
 	wvpData_->WVP = MakeIdentity4x4();
 }
@@ -67,20 +67,17 @@ void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c, const 
 }
 
 void Triangle::Finalize() {
-	vertexResource_->Release();
-	materialResource_->Release();
-	wvpResource_->Release();
-	directionalLightResource_->Release();
+	
 }
 
 void Triangle::CreateDirectionalLight()
 {
-	directionalLightResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(DirectionalLight));
+	directionalLightResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(DirectionalLight));
 	directionalLightResource_->Map(0, NULL, reinterpret_cast<void**>(&directionalLight_));
 }
 
 void Triangle::SettingVertex() {
-	vertexResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(),sizeof(VertexData) * 3);
+	vertexResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(VertexData) * 3);
 	vertexBufferView_.BufferLocation =vertexResource_->GetGPUVirtualAddress();
 	vertexBufferView_.SizeInBytes = sizeof(VertexData) * 3;
 	vertexBufferView_.StrideInBytes = sizeof(VertexData);

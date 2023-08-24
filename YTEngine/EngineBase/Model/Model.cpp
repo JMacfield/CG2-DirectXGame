@@ -47,10 +47,7 @@ void Model::Draw(const Vector4& material, const Transform& transform, uint32_t t
 }
 
 void Model::Finalize() {
-	vertexResource->Release();
-	materialResource_->Release();
-	wvpResource_->Release();
-	directionalLightResource_->Release();
+	
 }
 
 ModelData Model::LoadObjFile(const std::string& directoryPath, const std::string& fileName) {
@@ -158,7 +155,7 @@ MaterialData Model::LoadMaterialTemplateFile(const std::string& directoryPath, c
 }
 
 void Model::CreateVertexData() {
-	vertexResource = directXCommon_->CreateBufferResource(directXCommon_->GetDevice(), sizeof(VertexData) * modelData_.verticles.size());
+	vertexResource = directXCommon_->CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(VertexData) * modelData_.verticles.size());
 
 	vertexBufferView.BufferLocation = vertexResource->GetGPUVirtualAddress();
 	vertexBufferView.SizeInBytes = sizeof(VertexData) * (UINT)modelData_.verticles.size();
@@ -170,20 +167,20 @@ void Model::CreateVertexData() {
 }
 
 void Model::SetColor() {
-	materialResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(Material));
+	materialResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(Material));
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 
 	material_->uvTransform = MakeIdentity4x4();
 }
 
 void Model::TransformMatrix() {
-	wvpResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(TransformationMatrix));
+	wvpResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(TransformationMatrix));
 	wvpResource_->Map(0, NULL, reinterpret_cast<void**>(&wvpData_));
 
 	wvpData_->WVP = MakeIdentity4x4();
 }
 
 void Model::CreateDirectionalLight() {
-	directionalLightResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(DirectionalLight));
+	directionalLightResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(DirectionalLight));
 	directionalLightResource_->Map(0, NULL, reinterpret_cast<void**>(&directionalLight_));
 }

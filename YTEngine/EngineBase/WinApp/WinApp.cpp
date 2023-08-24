@@ -43,7 +43,7 @@ void WinApp::CreateGameWindow(const wchar_t* title, int32_t clientWidth, int32_t
 		debugController_->EnableDebugLayer();
 		debugController_->SetEnableGPUBasedValidation(true);
 	}
-#endif // _DEBUG
+#endif
 
 	ShowWindow(hwnd_, SW_SHOW);
 }

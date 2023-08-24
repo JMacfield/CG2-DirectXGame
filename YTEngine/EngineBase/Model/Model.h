@@ -23,17 +23,17 @@ private:
 	ModelData modelData_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	ID3D12Resource* vertexResource;
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource;
 	VertexData* vertexData_;
 
-	ID3D12Resource* wvpResource_;
+	Microsoft::WRL::ComPtr<ID3D12Resource> wvpResource_;
 	TransformationMatrix* wvpData_;
-	ID3D12Resource* materialResource_;
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource_;
 
 	Material* material_;
 
 	DirectionalLight* directionalLight_;
-	ID3D12Resource* directionalLightResource_;
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource_;
 
 private:
 	void CreateVertexData();

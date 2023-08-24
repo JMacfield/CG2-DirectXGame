@@ -17,20 +17,20 @@ public:
 private:
 	YTEngine* engine_;
 
-	ID3D12Resource* materialResource_;
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource_;
 	
 	DirectXCommon* directXCommon_;
 
 	VertexData* vertexData_;
-	ID3D12Resource* vertexResource_;
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 
 	Material* materialData_;
-	ID3D12Resource* wvpResource_;
+	Microsoft::WRL::ComPtr<ID3D12Resource> wvpResource_;
 	TransformationMatrix* wvpData_;
 
 	DirectionalLight* directionalLight_;
-	ID3D12Resource* directionalLightResource_;
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource_;
 
 private:
 	void SettingVertex();

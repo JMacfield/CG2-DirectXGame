@@ -11,7 +11,7 @@ void Sprite::Initialize(DirectXCommon* directXCommon,YTEngine * engine) {
 }
 
 void Sprite::SetColor() {
-	materialResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(Material));
+	materialResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(Material));
 
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 	materialData_->uvTransform = MakeIdentity4x4();
@@ -64,7 +64,7 @@ void Sprite::Draw(const Vector4& a, const Vector4& b, const Transform& transform
 }
 
 void Sprite::CreateDirectionalLight() {
-	directionalLightResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(DirectionalLight));
+	directionalLightResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(DirectionalLight));
 	directionalLightResource_->Map(0, NULL, reinterpret_cast<void**>(&directionalLight_));
 }
 
@@ -77,7 +77,7 @@ void Sprite::Finalize() {
 }
 
 void Sprite::CreateVertexData() {
-	vertexResource_ = directXCommon_->CreateBufferResource(directXCommon_->GetDevice(), sizeof(VertexData) * 6);
+	vertexResource_ = directXCommon_->CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(VertexData) * 6);
 
 
 	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
@@ -88,7 +88,7 @@ void Sprite::CreateVertexData() {
 
 	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 
-	indexResource_ = directXCommon_->CreateBufferResource(directXCommon_->GetDevice(), sizeof(uint32_t) * 6);
+	indexResource_ = directXCommon_->CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(uint32_t) * 6);
 	
 	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
 	indexBufferView_.SizeInBytes = sizeof(uint32_t) * 6;
@@ -105,7 +105,7 @@ void Sprite::CreateVertexData() {
 }
 
 void Sprite::CreateTransform() {
-	wvpResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice(), sizeof(TransformationMatrix));
+	wvpResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(TransformationMatrix));
 	wvpResource_->Map(0, NULL, reinterpret_cast<void**>(&wvpData_));
 	wvpData_->WVP = MakeIdentity4x4();
 }
