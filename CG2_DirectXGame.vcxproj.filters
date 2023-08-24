@@ -91,6 +91,12 @@
     <Filter Include="ヘッダー ファイル\EngineBase\Sphere">
       <UniqueIdentifier>{cbb50e96-7ac2-49fa-b01a-03829b806ee3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\EngineBase\Model">
+      <UniqueIdentifier>{a89c85cc-f854-4713-b5a5-15b9b6d6d9af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EngineBase\Model">
+      <UniqueIdentifier>{1a2a05b1-f1db-4f77-9fb6-6687d4b4c5a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -144,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="YTEngine\EngineBase\Sphere\Sphere.cpp">
       <Filter>ソース ファイル\EngineBase\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\EngineBase\Model\Model.cpp">
+      <Filter>ソース ファイル\EngineBase\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="YTEngine\EngineBase\Sphere\Sphere.h">
       <Filter>ヘッダー ファイル\EngineBase\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\EngineBase\Model\Model.h">
+      <Filter>ヘッダー ファイル\EngineBase\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

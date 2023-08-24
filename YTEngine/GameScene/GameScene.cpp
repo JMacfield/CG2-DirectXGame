@@ -37,6 +37,9 @@ void GameScene::Initialize(YTEngine* engine, DirectXCommon* directXCommon) {
 	sphere_ = new Sphere();
 	sphere_->Initialize(directXCommon_, engine_);
 
+	model_ = new Model();
+	model_->Initialize(directXCommon_, engine_, "Resource", "axis.obj", 0);
+
 	uvResourceNumber_ = 0;
 	engine_->LoadTexture("Resource/uvChecker.png",uvResourceNumber_);
 
@@ -73,11 +76,13 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw3D() {
-	for (int i = 0; i < 2; i++) {
+	/*for (int i = 0; i < 2; i++) {
 		triangle_[i]->Draw(data1_[i], data2_[i], data3_[i], material_[i], transform_, cameraTransform_, directionalLight_);
 	}
 
-	sphere_->Draw(sphereMaterial_, sphereTransform_, monsterBallResourceNumber_,cameraTransform_,directionalLight_);
+	sphere_->Draw(sphereMaterial_, sphereTransform_, monsterBallResourceNumber_,cameraTransform_,directionalLight_);*/
+	
+	model_->Draw(sphereMaterial_, sphereTransform_, 0, cameraTransform_, directionalLight_);
 }
 
 void GameScene::Draw2D() {
@@ -85,7 +90,7 @@ void GameScene::Draw2D() {
 		sprite_[i]->Draw(spriteDataLeftTop_[i], spriteDataRightDown_[i], spriteTransform_[i],spriteUvTransform_, spriteMaterial_[0], uvResourceNumber_,directionalLight_);
 	}*/
 
-	sprite_[0]->Draw(spriteDataLeftTop_[0], spriteDataRightDown_[0], spriteTransform_[0], spriteUvTransform_, spriteMaterial_[0], uvResourceNumber_, directionalLight_);
+	//sprite_[0]->Draw(spriteDataLeftTop_[0], spriteDataRightDown_[0], spriteTransform_[0], spriteUvTransform_, spriteMaterial_[0], uvResourceNumber_, directionalLight_);
 }
 
 void GameScene::Finalize() {

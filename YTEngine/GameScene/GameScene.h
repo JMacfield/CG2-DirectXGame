@@ -6,6 +6,7 @@
 #include "ImGuiManager.h"
 #include "Sprite.h"
 #include "Sphere.h"
+#include "Model.h"
 
 class GameScene {
 public:
@@ -49,4 +50,6 @@ private:
 
 	uint32_t uvResourceNumber_;
 	int monsterBallResourceNumber_;
+
+	Model* model_;
 };
