@@ -78,9 +78,9 @@ void GameScene::Update() {
 void GameScene::Draw3D() {
 	/*for (int i = 0; i < 2; i++) {
 		triangle_[i]->Draw(data1_[i], data2_[i], data3_[i], material_[i], transform_, cameraTransform_, directionalLight_);
-	}
+	}*/
 
-	sphere_->Draw(sphereMaterial_, sphereTransform_, monsterBallResourceNumber_,cameraTransform_,directionalLight_);*/
+	/*sphere_->Draw(sphereMaterial_, sphereTransform_, monsterBallResourceNumber_,cameraTransform_,directionalLight_);*/
 	
 	model_->Draw(sphereMaterial_, sphereTransform_, 0, cameraTransform_, directionalLight_);
 }
@@ -94,8 +94,8 @@ void GameScene::Draw2D() {
 }
 
 void GameScene::Finalize() {
-	//sphere_->Finalize();
 	model_->Finalize();
+	sphere_->Finalize();
 
 	for (int i = 0; i < 2; i++) {
 		triangle_[i]->Finalize();
