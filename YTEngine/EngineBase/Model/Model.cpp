@@ -59,7 +59,7 @@ ModelData Model::LoadObjFile(const std::string& directoryPath, const std::string
 
 	std::ifstream file(directoryPath + "/" + fileName);
 
-	assert(file.is_open);
+	assert(file.is_open());
 
 	while (std::getline(file, line)) {
 		std::string identifier;
@@ -135,7 +135,7 @@ MaterialData Model::LoadMaterialTemplateFile(const std::string& directoryPath, c
 	std::string line;
 	std::ifstream file(directoryPath + "/" + fileName);
 	
-	assert(file.is_open);
+	assert(file.is_open());
 
 	while (std::getline(file, line)) {
 		std::string identifier;
