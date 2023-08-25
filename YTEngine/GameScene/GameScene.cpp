@@ -94,7 +94,8 @@ void GameScene::Draw2D() {
 }
 
 void GameScene::Finalize() {
-	sphere_->Finalize();
+	//sphere_->Finalize();
+	model_->Finalize();
 
 	for (int i = 0; i < 2; i++) {
 		triangle_[i]->Finalize();
