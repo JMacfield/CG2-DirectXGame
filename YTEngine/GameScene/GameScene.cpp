@@ -34,8 +34,8 @@ void GameScene::Initialize(YTEngine* engine, DirectXCommon* directXCommon) {
 		{0.0f,0.0f,0.0f},
 		{0.0f,0.0f,0.0f} };
 
-	sphere_ = new Sphere();
-	sphere_->Initialize(directXCommon_, engine_);
+	/*sphere_ = new Sphere();
+	sphere_->Initialize(directXCommon_, engine_);*/
 
 	model_ = new Model();
 	model_->Initialize(directXCommon_, engine_, "Resource", "axis.obj", 0);
@@ -95,7 +95,7 @@ void GameScene::Draw2D() {
 
 void GameScene::Finalize() {
 	model_->Finalize();
-	sphere_->Finalize();
+	//sphere_->Finalize();
 
 	for (int i = 0; i < 2; i++) {
 		triangle_[i]->Finalize();
