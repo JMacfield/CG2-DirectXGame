@@ -15,8 +15,8 @@ public:
 
 	ModelData modelData_;
 
-	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
-	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
+	ModelData LoadObjFile(const std::string& directoryPath, const std::string& fileName);
+	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& fileName);
 
 private:
 	DirectXCommon* directXCommon_;
