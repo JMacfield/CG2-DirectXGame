@@ -28,7 +28,7 @@ private:
 	Transform spriteTransform_[2];
 	Vector4 spriteMaterial_[2];
 
-	Sphere* sphere_;
+	//Sphere* sphere_;
 	Transform sphereTransform_;
 	Vector4 sphereMaterial_;
 	Matrix4x4 sphereMatrix_;

@@ -236,16 +236,19 @@ void DirectXCommon::Finalize() {
 	fence_->Release();
 
 	depthStencilResource_->Release();
+	
 	dsvDescriptorHeap_->Release();
-
 	srvDescriptorHeap_->Release();
 	rtvDescriptorHeap_->Release();
+	
 	backBuffers_[0]->Release();
 	backBuffers_[1]->Release();
 	swapChain_->Release();
+	
 	commandList_->Release();
 	commandAllocator_->Release();
 	commandQueue_->Release();
+	
 	device_->Release();
 	useAdapter_->Release();
 	dxgiFactory_->Release();

@@ -1,5 +1,6 @@
 #include "YTEngine.h"
 #include "GameScene.h"
+#include <crtdbg.h>
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	CoInitializeEx(0, COINIT_MULTITHREADED);
@@ -16,6 +17,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (winApp_->ProcessMessage()) {
 			break;
 		}
+
+		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 		engine->BeginFrame();
 

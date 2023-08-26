@@ -96,12 +96,6 @@ void Sprite::CreateVertexData() {
 	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
 	
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
-	indexData_[0] = 0;
-	indexData_[1] = 1;
-	indexData_[2] = 2;
-	indexData_[3] = 4;
-	indexData_[4] = 2;
-	indexData_[5] = 3;
 }
 
 void Sprite::CreateTransform() {

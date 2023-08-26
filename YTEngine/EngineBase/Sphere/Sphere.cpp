@@ -3,7 +3,7 @@
 #include "YTEngine.h"
 
 void Sphere::Initialize(DirectXCommon* directXCommon, YTEngine* engine) {
-	directXCommon_ = directXCommon;
+	/*directXCommon_ = directXCommon;
 	engine_ = engine;
 
 	kSubDivision = 16;
@@ -12,7 +12,7 @@ void Sphere::Initialize(DirectXCommon* directXCommon, YTEngine* engine) {
 	CreateVertexData();
 	SetColor();
 	TransformMatrix();
-	CreateDirectionalLight();
+	CreateDirectionalLight();*/
 }
 
 void Sphere::Draw(const Vector4& material, const Transform& transform, uint32_t texIndex, const Transform& cameraTransform, const DirectionalLight& light) {

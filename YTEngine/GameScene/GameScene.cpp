@@ -48,13 +48,13 @@ void GameScene::Initialize(YTEngine* engine, DirectXCommon* directXCommon) {
 
 	directionalLight_ = { {1.0f,1.0f,1.0f,1.0f},{0.0f,-1.0f,0.0f},1.0f };
 
-	for (int i = 0; i < 2; i++) {
+	/*for (int i = 0; i < 2; i++) {
 		triangle_[i] = new Triangle();
 		triangle_[i]->Initialize(directXCommon_, engine_);
 
 		sprite_[i] = new Sprite();
 		sprite_[i]->Initialize(directXCommon_,engine_);
-	}
+	}*/
 }
 
 void GameScene::Update() {
@@ -97,8 +97,8 @@ void GameScene::Finalize() {
 	model_->Finalize();
 	//sphere_->Finalize();
 
-	for (int i = 0; i < 2; i++) {
+	/*for (int i = 0; i < 2; i++) {
 		triangle_[i]->Finalize();
 		sprite_[i]->Finalize();
-	}
+	}*/
 }
