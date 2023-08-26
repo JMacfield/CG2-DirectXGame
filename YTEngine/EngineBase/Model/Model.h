@@ -13,14 +13,13 @@ public:
 
 	void Finalize();
 
+	ModelData modelData_;
+
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
 
 private:
 	DirectXCommon* directXCommon_;
-	YTEngine* engine_;
-
-	ModelData modelData_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 	ID3D12Resource* vertexResource;
@@ -31,6 +30,7 @@ private:
 	ID3D12Resource* materialResource_;
 
 	Material* material_;
+	YTEngine* engine_;
 
 	DirectionalLight* directionalLight_;
 	ID3D12Resource* directionalLightResource_;

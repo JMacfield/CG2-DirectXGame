@@ -4,27 +4,27 @@ void GameScene::Initialize(YTEngine* engine, DirectXCommon* directXCommon) {
 	engine_ = engine;
 	directXCommon_ = directXCommon;
 
-	data1_[0] = { -0.5f,-0.5f,0.5f,1.0f };
-	data2_[0] = { 0.0f,0.0f,0.0f,1.0f };
-	data3_[0] = { 0.5f,-0.5f,-0.5f,1.0f };
-	material_[0] = { 1.0f,1.0f,1.0f,1.0f };
+	//data1_[0] = { -0.5f,-0.5f,0.5f,1.0f };
+	//data2_[0] = { 0.0f,0.0f,0.0f,1.0f };
+	//data3_[0] = { 0.5f,-0.5f,-0.5f,1.0f };
+	//material_[0] = { 1.0f,1.0f,1.0f,1.0f };
 
-	data1_[1] = { -0.5f,-0.5f,0.0f,1.0f };
-	data2_[1] = { 0.0f,0.5f,0.0f,1.0f };
-	data3_[1] = { 0.5f,-0.5f,0.0f,1.0f };
-	material_[1] = { 1.0f,1.0f,1.0f,1.0f };
+	//data1_[1] = { -0.5f,-0.5f,0.0f,1.0f };
+	//data2_[1] = { 0.0f,0.5f,0.0f,1.0f };
+	//data3_[1] = { 0.5f,-0.5f,0.0f,1.0f };
+	//material_[1] = { 1.0f,1.0f,1.0f,1.0f };
 
 	transform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-10.0f} };
 
-	spriteDataLeftTop_[0] = { 0.0f,0.0f,0.0f,1.0f };
+	/*spriteDataLeftTop_[0] = { 0.0f,0.0f,0.0f,1.0f };
 	spriteDataRightDown_[0] = { 320.0f,180.0f,0.0f,1.0f };
 	spriteTransform_[0] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 	spriteDataLeftTop_[1] = { 960.0f,540.0f,0.0f,1.0f };
 	spriteDataRightDown_[1] = { 1280.0f,720.0f,0.0f,1.0f };
 	spriteTransform_[1] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	spriteMaterial_[0] = { 1.0f,1.0f,1.0f,1.0f };
+	spriteMaterial_[0] = { 1.0f,1.0f,1.0f,1.0f };*/
 
 	sphereTransform_ = { {1.0f,1.0f,1.0f},{0.0f,1.6f,0.0f},{0.0f,0.0f,0.0f} };
 	sphereMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -38,7 +38,7 @@ void GameScene::Initialize(YTEngine* engine, DirectXCommon* directXCommon) {
 	sphere_->Initialize(directXCommon_, engine_);*/
 
 	model_ = new Model();
-	model_->Initialize(directXCommon_, engine_, "Resource", "axis.obj", 0);
+	model_->Initialize(directXCommon_, engine_, "Resource", "plane.obj", 0);
 
 	uvResourceNumber_ = 0;
 	engine_->LoadTexture("Resource/uvChecker.png",uvResourceNumber_);

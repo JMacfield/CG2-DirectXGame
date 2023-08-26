@@ -1,6 +1,5 @@
 #include "YTEngine.h"
 #include "GameScene.h"
-#include <crtdbg.h>
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	CoInitializeEx(0, COINIT_MULTITHREADED);
@@ -10,15 +9,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	
 	engine->Initialize(winApp_, 1280, 720);
 	
-	GameScene* gameScene = new GameScene;
+	GameScene* gameScene = new GameScene();
 	gameScene->Initialize(engine, engine->GetDirectXCommon());
 
 	while (true) {
 		if (winApp_->ProcessMessage()) {
 			break;
 		}
-
-		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 		engine->BeginFrame();
 
