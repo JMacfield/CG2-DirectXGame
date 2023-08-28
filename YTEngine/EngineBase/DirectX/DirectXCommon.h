@@ -86,4 +86,5 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilResource(ID3D12Device* deive, int32_t width, int32_t height);
 	void CreateDepthStencil();
+	void DebugLayer();
 };
