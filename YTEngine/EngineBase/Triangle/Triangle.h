@@ -8,9 +8,9 @@ class YTEngine;
 class Triangle
 {
 public:
-	void Initialize(DirectXCommon* directXCommon, YTEngine* engine);
+	void Initialize(DirectXCommon* directXCommon, YTEngine* engine, const Vector4& a, const Vector4& b, const Vector4& c, const DirectionalLight& light);
 	
-	void Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material, const Transform& transform, const Transform& cameraTransform, const DirectionalLight& light);
+	void Draw(const Transform& transform, const Transform& cameraTransform, const Vector4& material);
 	
 	void Finalize();
 
@@ -33,8 +33,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource_;
 
 private:
-	void SettingVertex();
+	void SettingVertex(const Vector4& a, const Vector4& b, const Vector4& c);
 	void SetColor();
 	void TransformMatrix();
-	void CreateDirectionalLight();
+	void CreateDirectionalLight(const DirectionalLight& light);
 };

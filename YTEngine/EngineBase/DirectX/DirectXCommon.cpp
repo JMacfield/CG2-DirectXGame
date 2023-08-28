@@ -94,8 +94,6 @@ void DirectXCommon::InitializeCommand() {
 }
 
 void DirectXCommon::CreateSwapChain() {
-	swapChain_ = nullptr;
-	
 	swapChainDesc_.Width = WinApp::kClientWidth;
 	swapChainDesc_.Height = WinApp::kClientHeight;
 	swapChainDesc_.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -136,6 +134,7 @@ void DirectXCommon::CreateFinalRenderTargets() {
 void DirectXCommon::CreateFence() {
 	fence_ = nullptr;
 	fenceVal_ = 0;
+
 	HRESULT	hr = device_->CreateFence(fenceVal_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
 	assert(SUCCEEDED(hr));
 
@@ -219,19 +218,11 @@ void DirectXCommon::Finalize() {
 
 	CloseWindow(winApp_->GetHwnd());
 	delete winApp_;
-
-	IDXGIDebug1* debug;
-	if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&debug)))) {
-		debug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
-		debug->ReportLiveObjects(DXGI_DEBUG_APP, DXGI_DEBUG_RLO_ALL);
-		debug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
-		debug->Release();
-	}
 }
 
 Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>DirectXCommon::CreateDescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescripters, bool shaderVisible)
 {
-	ID3D12DescriptorHeap* descriptorHeap = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap = nullptr;
 	D3D12_DESCRIPTOR_HEAP_DESC descriptionHeapDesc{};
 	descriptionHeapDesc.Type = heapType;
 	descriptionHeapDesc.NumDescriptors = numDescripters;
@@ -258,7 +249,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource>DirectXCommon::CreateBufferResource(ID3D12
 	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	HRESULT hr;
 
-	ID3D12Resource* resource = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> resource = nullptr;
 
 	hr = device->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&resource));
 	assert(SUCCEEDED(hr));
@@ -284,7 +275,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource>DirectXCommon::CreateDepthStencilResource(
 	depthClearValue.DepthStencil.Depth = 1.0f;
 	depthClearValue.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
-	ID3D12Resource* resource = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> resource = nullptr;
 
 	HRESULT hr = device->CreateCommittedResource(
 		&heapProperties,

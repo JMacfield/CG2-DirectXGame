@@ -8,6 +8,12 @@
 #include "Sphere.h"
 #include "Model.h"
 
+struct TriangleVertex {
+	Vector4 v1;
+	Vector4 v2;
+	Vector4 v3;
+};
+
 class GameScene {
 public:
 	void Initialize(YTEngine* engine, DirectXCommon* directXCommon);
@@ -35,13 +41,14 @@ private:
 
 	Transform spriteUvTransform_;
 
-	Vector4 data1_[2];
-	Vector4 data2_[2];
-	Vector4 data3_[2];
-	Vector4 material_[2];
+	TriangleVertex triangleVertex_[2];
+	Vector4 triangleMaterial_[2];
 
 	Triangle* triangle_[2];
 	Transform transform_;
+
+	Transform modelTransform_;
+	Vector4 modelMaterial_;
 
 	Matrix4x4 worldMatrix_;
 	Transform cameraTransform_;

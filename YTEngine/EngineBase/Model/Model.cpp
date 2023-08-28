@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-void Model::Initialize(DirectXCommon* directXCommon, YTEngine* engine, const std::string& directoryPath, const std::string& fileName, uint32_t index) {
+void Model::Initialize(DirectXCommon* directXCommon, YTEngine* engine, const std::string& directoryPath, const std::string& fileName, uint32_t index, const DirectionalLight& light) {
 	directXCommon_ = directXCommon;
 	engine_ = engine;
 
@@ -12,10 +12,10 @@ void Model::Initialize(DirectXCommon* directXCommon, YTEngine* engine, const std
 	CreateVertexData();
 	SetColor();
 	TransformMatrix();
-	CreateDirectionalLight();
+	CreateDirectionalLight(light);
 }
 
-void Model::Draw(const Vector4& material, const Transform& transform, uint32_t texIndex, const Transform& cameraTransform, const DirectionalLight& light) {
+void Model::Draw(const Vector4& material, const Transform& transform, uint32_t texIndex, const Transform& cameraTransform) {
 	Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
 	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform.scale, cameraTransform.rotate, cameraTransform.translate);
 	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
@@ -33,7 +33,6 @@ void Model::Draw(const Vector4& material, const Transform& transform, uint32_t t
 	material_->uvTransform = uvTransformMatrix;
 
 	*wvpData_ = { wvpMatrix,worldMatrix };
-	*directionalLight_ = light;
 
 	directXCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 	
@@ -180,7 +179,9 @@ void Model::TransformMatrix() {
 	wvpData_->WVP = MakeIdentity4x4();
 }
 
-void Model::CreateDirectionalLight() {
+void Model::CreateDirectionalLight(const DirectionalLight& light) {
 	directionalLightResource_ = DirectXCommon::CreateBufferResource(directXCommon_->GetDevice().Get(), sizeof(DirectionalLight));
 	directionalLightResource_->Map(0, NULL, reinterpret_cast<void**>(&directionalLight_));
+
+	*directionalLight_ = light;
 }

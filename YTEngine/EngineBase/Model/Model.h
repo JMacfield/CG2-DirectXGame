@@ -7,9 +7,9 @@
 
 class Model {
 public:
-	void Initialize(DirectXCommon* directXCommon, YTEngine* engine, const std::string& directoryPath, const std::string& fileName, uint32_t index);
+	void Initialize(DirectXCommon* directXCommon, YTEngine* engine, const std::string& directoryPath, const std::string& fileName, uint32_t index, const DirectionalLight& light);
 
-	void Draw(const Vector4& material, const Transform& transform, uint32_t texIndex, const Transform& cameraTransform, const DirectionalLight& light);
+	void Draw(const Vector4& material, const Transform& transform, uint32_t texIndex, const Transform& cameraTransform);
 
 	void Finalize();
 
@@ -39,5 +39,5 @@ private:
 	void CreateVertexData();
 	void SetColor();
 	void TransformMatrix();
-	void CreateDirectionalLight();
+	void CreateDirectionalLight(const DirectionalLight& light);
 };

@@ -6,9 +6,9 @@
 
 class Sphere {
 public:
-	void Initialize(DirectXCommon* directXCommon, YTEngine* engine);
+	void Initialize(DirectXCommon* directXCommon, YTEngine* engine, const DirectionalLight& light);
 
-	void Draw(const Vector4& material, const Transform& wvpdata, uint32_t texIndex, const Transform& cameratransform, const DirectionalLight& light);
+	void Draw(const Vector4& material, const Transform& transform, uint32_t texIndex, const Transform& cameratransform);
 
 	void Finalize();
 
@@ -37,5 +37,5 @@ private:
 	void CreateVertexData();
 	void SetColor();
 	void TransformMatrix();
-	void CreateDirectionalLight();
+	void CreateDirectionalLight(const DirectionalLight& light);
 };

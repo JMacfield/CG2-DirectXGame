@@ -6,8 +6,8 @@
 
 class Sprite {
 public:
-	void Initialize(DirectXCommon* directXCommon, YTEngine* engine);
-	void Draw(const Vector4& a, const Vector4& b, const Transform& transform, const Transform& uvTransform, const Vector4& material, uint32_t texIndex, const DirectionalLight& light);
+	void Initialize(DirectXCommon* directXCommon, YTEngine* engine, const Vector4& a, const Vector4& b, const DirectionalLight& light);
+	void Draw(const Transform& transform, const Transform& uvTransform, const Vector4& material, uint32_t texIndex);
 	void Finalize();
 
 private:
@@ -30,8 +30,8 @@ private:
 	Material* materialData_;
 
 private:
-	void CreateVertexData();
+	void CreateVertexData(const Vector4& a, const Vector4& b);
 	void CreateTransform();
 	void SetColor();
-	void CreateDirectionalLight();
+	void CreateDirectionalLight(const DirectionalLight& light);
 };

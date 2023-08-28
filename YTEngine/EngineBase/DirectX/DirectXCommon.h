@@ -28,7 +28,7 @@ public:
 
 	Microsoft::WRL::ComPtr<ID3D12Device>GetDevice() { return device_; }
 
-	Microsoft::WRL::ComPtr <ID3D12GraphicsCommandList> GetCommandList() { return commandList_; }
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return commandList_; }
 	static Microsoft::WRL::ComPtr<ID3D12Resource >CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
 
 	WinApp* GetWin() { return winApp_; }

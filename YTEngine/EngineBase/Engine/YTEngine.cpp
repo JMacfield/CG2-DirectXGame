@@ -195,6 +195,7 @@ void YTEngine::InitializePSO() {
 	graphicsPipelineState_ = nullptr;
 	HRESULT hr = directXCommon_->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
 		IID_PPV_ARGS(&graphicsPipelineState_));
+
 	assert(SUCCEEDED(hr));
 }
 
@@ -307,7 +308,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> YTEngine::CreateTextureResource(ID3D12Dev
 	D3D12_HEAP_PROPERTIES heapProperties{};
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 	
-	ID3D12Resource* resource = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> resource = nullptr;
 	HRESULT hr = device->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_COPY_DEST, nullptr, IID_PPV_ARGS(&resource));
 	assert(SUCCEEDED(hr));
 	return resource;
