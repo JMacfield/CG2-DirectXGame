@@ -49,12 +49,6 @@
     <Filter Include="ヘッダー ファイル\EngineBase\YTEngine">
       <UniqueIdentifier>{2badda3e-e1f7-498e-a9ce-8e6714a1df79}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\GameScene">
-      <UniqueIdentifier>{00f66263-9bfe-4961-a3f9-bd77b5386b8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\GameScene">
-      <UniqueIdentifier>{35ee664f-a86b-4d50-9db5-286c8050a462}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\ImGuiManager">
       <UniqueIdentifier>{0be8df4e-b7e7-40f6-909a-98a47eb6ee06}</UniqueIdentifier>
     </Filter>
@@ -97,6 +91,12 @@
     <Filter Include="ヘッダー ファイル\EngineBase\Model">
       <UniqueIdentifier>{1a2a05b1-f1db-4f77-9fb6-6687d4b4c5a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Input">
+      <UniqueIdentifier>{36d4615f-9b52-49c9-8a80-a4cbdbb4caa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Input">
+      <UniqueIdentifier>{43b90de9-c6ea-46a1-90c8-b2b0e7b62a7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -127,9 +127,6 @@
     <ClCompile Include="YTEngine\EngineBase\WinApp\WinApp.cpp">
       <Filter>ソース ファイル\EngineBase\WinApp</Filter>
     </ClCompile>
-    <ClCompile Include="YTEngine\GameScene\GameScene.cpp">
-      <Filter>ソース ファイル\GameScene</Filter>
-    </ClCompile>
     <ClCompile Include="YTEngine\ImGuiManager\ImGuiManager.cpp">
       <Filter>ソース ファイル\ImGuiManager</Filter>
     </ClCompile>
@@ -153,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="YTEngine\EngineBase\Model\Model.cpp">
       <Filter>ソース ファイル\EngineBase\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="YTEngine\Input\Input.cpp">
+      <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -189,9 +189,6 @@
     <ClInclude Include="YTEngine\EngineBase\WinApp\WinApp.h">
       <Filter>ヘッダー ファイル\EngineBase\WinApp</Filter>
     </ClInclude>
-    <ClInclude Include="YTEngine\GameScene\GameScene.h">
-      <Filter>ヘッダー ファイル\GameScene</Filter>
-    </ClInclude>
     <ClInclude Include="YTEngine\ImGuiManager\ImGuiManager.h">
       <Filter>ヘッダー ファイル\ImGuiManager</Filter>
     </ClInclude>
@@ -224,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="YTEngine\EngineBase\Model\Model.h">
       <Filter>ヘッダー ファイル\EngineBase\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="YTEngine\Input\Input.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
