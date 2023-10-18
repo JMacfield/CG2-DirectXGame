@@ -235,12 +235,21 @@
     <None Include="YTEngine\Shader\Object3d.hlsli">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
+    <None Include="Particle.hlsli">
+      <Filter>リソース ファイル\Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="YTEngine\Shader\Object3d.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
     <FxCompile Include="YTEngine\Shader\Object3d.VS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Particle.PS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Particle.VS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
   </ItemGroup>

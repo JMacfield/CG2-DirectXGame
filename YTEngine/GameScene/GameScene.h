@@ -26,25 +26,6 @@ private:
 	YTEngine* engine_;
 	DirectXCommon* directXCommon_;
 
-	Sprite* sprite_[2];
-
-	Vector4 spriteDataLeftTop_[2];
-	Vector4 spriteDataRightDown_[2];
-
-	Transform spriteTransform_[2];
-	Vector4 spriteMaterial_[2];
-
-	Sphere* sphere_;
-	Transform sphereTransform_;
-	Vector4 sphereMaterial_;
-	Matrix4x4 sphereMatrix_;
-
-	Transform spriteUvTransform_;
-
-	TriangleVertex triangleVertex_[2];
-	Vector4 triangleMaterial_[2];
-
-	Triangle* triangle_[2];
 	Transform transform_;
 
 	Transform modelTransform_;
